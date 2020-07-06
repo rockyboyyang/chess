@@ -2,40 +2,70 @@ import React, { useState, } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
 
+
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
     const board = [];
     const [layout, setLayout] = useState(squares)
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
-    // const [layout, setLayout] = useState(squares)
-    
-    const selectPieceToMove = (e) => {
-        if(!selectedPiece) {
-            if(e.target.id === 'undefined') return
-            setSelectedPiece(e.target.id)
-            setPreviousSelected(e.target.className.split(' ')[0])
-        }
-        // console.log(previousSelected)
+    const [turn, changeTurn] = useState('white')
+    const [whiteCasualties, setWhiteCasualties] = useState([])
+    const [blackCasualties, setBlackCasualties] = useState([])
 
+    // const [layout, setLayout] = useState(squares)
+    const pawnMoveLogic = (currentSpot, destination) => {
+        // ONLY FIRST MOVE
+        // STILL NEED TO WRITE CODE ON HOW TO MOVE AFTER PAWN HAS ALREADY MOVED
+        if(turn === 'white') {
+            if(currentSpot - destination === 8 || currentSpot - destination === 16) return true;
+            else {
+                console.log('INVALID MOVE')
+                return false;
+            }
+        } else {
+            if (currentSpot + 8 === destination || currentSpot + 16 === destination) return true;
+            else {
+                console.log('INVALID MOVE')
+                return false;
+            }
+        }
+    }
+
+    const selectPieceToMove = (e) => {
+        if(turn === 'white'){
+            if(!selectedPiece) {
+                if(e.target.id === 'undefined') return
+                if(!e.target.id.includes(`${turn}`)) {
+                    return
+                }
+                setSelectedPiece(e.target.id)
+                setPreviousSelected(e.target.className.split(' ')[0])
+            }
+        } else {
+            if (!selectedPiece) {
+                if (e.target.id === 'undefined') return
+                if (!e.target.id.includes(`${turn}`)) {
+                    return
+                }
+                setSelectedPiece(e.target.id)
+                setPreviousSelected(e.target.className.split(' ')[0])
+            }
+        }
         if (selectedPiece) {
+            // return if selected piece is own piece
+            if (!pawnMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
+                setSelectedPiece('')
+                return
+            }
+            if(e.target.id.includes(turn)) return
             e.target.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected}`).removeAttribute('id')
+            if (turn === 'white') changeTurn('black')
+            if (turn === 'black') changeTurn('white')
         }
-            
-        // console.log(e.target.key)
-        // e.target.id =''
-      
-        // console.log(e.target.className)
     }
-
-    // const selectPieceToLand = (e) => {
-    //     if(selectedPiece) {
-    //         e.target.id = selectedPiece
-    //         setSelectedPiece('')
-    //     }
-    // }
 
     for(let i = 0; i < 64; i++) {
         let className;
