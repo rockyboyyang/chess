@@ -13,6 +13,95 @@
     border: 1px solid black;
 }
 
+.game-board > div {
+    display: flex;
+    align-items: center;
+}
+
 .color-square {
-    background-color: rgb(160, 160, 160);
+    background-color: rgb(36, 36, 36);
+}
+
+.rook-black {
+    background-image: url(./images/black-rook.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.rook-white {
+    background-image: url(./images/white-rook.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.knight-black {
+    background-image: url(./images/black-knight.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.knight-white {
+    background-image: url(./images/white-rook.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.bishop-black {
+    background-image: url(./images/black-bishop.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+}
+
+.bishop-white {
+    background-image: url(./images/white-bishop.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+}
+
+.queen-black {
+    background-image: url(./images/black-queen.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 27px;
+}
+
+.queen-white {
+    background-image: url(./images/white-queen.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 27px;
+}
+
+.king-black {
+    background-image: url(./images/black-king.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+}
+
+.king-white {
+    background-image: url(./images/white-king.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+}
+
+.pawn-black {
+    background-image: url(./images/black-pawn.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.pawn-white {
+    background-image: url(./images/white-pawn.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
 }
