@@ -1,1 +1,18 @@
 /* TODO Add site wide styles */
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game-board {
+    height: 500px;
+    width: 500px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    border: 1px solid black;
+}
+
+.color-square {
+    background-color: rgb(160, 160, 160);
+}

@@ -1,8 +1,20 @@
 import React from 'react';
+import Login from './components/Login';
+import GuestMenu from './components/GuestMenu'
+import GameBoard from './components/GameBoard'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <h1>Hello world!</h1>
+    <BrowserRouter>
+      <h1>Chess</h1>
+      <Switch>
+        {/* {localStorage.Token ? (<Route path="/login"><Login /></Route>) : (<Route path="/guestMenu"><GuestMenu /></Route>)} */}
+        <Route path="/login"><Login /></Route>
+        <Route path="/guestMenu"><GuestMenu /></Route>
+        <Route path="/gameBoard"><GameBoard /></Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
