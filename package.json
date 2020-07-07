@@ -13,11 +13,11 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "cd frontend; react-scripts start",
-    "build": "cd frontend; react-scripts build",
-    "test": "cd frontend; react-scripts test",
-    "eject": "cd frontend; react-scripts eject",
-    "postinstall": "cd frontend; npm run build"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "cd frontend && npm run build"
   },
   "repository": {
     "type": "git",
