@@ -1,7 +1,7 @@
 import React, { useState, } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
-
+import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic } from '../moves/moveLogic'
 
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
@@ -12,25 +12,6 @@ export const CreateGameboard = () => {
     const [turn, changeTurn] = useState('white')
     const [whiteCasualties, setWhiteCasualties] = useState([])
     const [blackCasualties, setBlackCasualties] = useState([])
-
-    // const [layout, setLayout] = useState(squares)
-    const pawnMoveLogic = (currentSpot, destination) => {
-        // ONLY FIRST MOVE
-        // STILL NEED TO WRITE CODE ON HOW TO MOVE AFTER PAWN HAS ALREADY MOVED
-        if(turn === 'white') {
-            if(currentSpot - destination === 8 || currentSpot - destination === 16) return true;
-            else {
-                console.log('INVALID MOVE')
-                return false;
-            }
-        } else {
-            if (currentSpot + 8 === destination || currentSpot + 16 === destination) return true;
-            else {
-                console.log('INVALID MOVE')
-                return false;
-            }
-        }
-    }
 
     const selectPieceToMove = (e) => {
         if(turn === 'white'){
@@ -52,12 +33,32 @@ export const CreateGameboard = () => {
                 setPreviousSelected(e.target.className.split(' ')[0])
             }
         }
+        
         if (selectedPiece) {
-            // return if selected piece is own piece
-            if (!pawnMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
-                setSelectedPiece('')
-                return
+            // check for valid moves
+            if(selectedPiece.includes('pawn')) {
+                if (!pawnMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)), turn)) {
+                    setSelectedPiece('')
+                    return
+                }
             }
+
+            if (selectedPiece.includes('knight')) {
+                if (!knightMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
+                    setSelectedPiece('')
+                    return
+                }
+            }
+            
+            if(selectedPiece.includes('bishop')) {
+                if (!bishopMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
+                    setSelectedPiece('')
+                    return
+                }
+            }
+
+            
+            // return if selected piece is own piece
             if(e.target.id.includes(turn)) return
             e.target.id = selectedPiece;
             setSelectedPiece('')
