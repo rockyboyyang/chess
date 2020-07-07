@@ -1,7 +1,7 @@
 import React, { useState, } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
-import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic } from '../moves/moveLogic'
+import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic } from '../moves/moveLogic'
 
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
@@ -36,27 +36,36 @@ export const CreateGameboard = () => {
         
         if (selectedPiece) {
             // check for valid moves
+            const currentSpot = Number(previousSelected.slice(7))
+            const destination = Number(e.target.className.split(' ')[0].slice(7))
+            
             if(selectedPiece.includes('pawn')) {
-                if (!pawnMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)), turn)) {
+                if (!pawnMoveLogic(currentSpot, destination, turn)) {
                     setSelectedPiece('')
                     return
                 }
             }
 
             if (selectedPiece.includes('knight')) {
-                if (!knightMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
+                if (!knightMoveLogic(currentSpot, destination)) {
                     setSelectedPiece('')
                     return
                 }
             }
             
             if(selectedPiece.includes('bishop')) {
-                if (!bishopMoveLogic(Number(previousSelected.slice(7)), Number(e.target.className.split(' ')[0].slice(7)))) {
+                if (!bishopMoveLogic(currentSpot, destination)) {
                     setSelectedPiece('')
                     return
                 }
             }
 
+            if (selectedPiece.includes('rook')) {
+                if (!rookMoveLogic(currentSpot, destination)) {
+                    setSelectedPiece('')
+                    return
+                }
+            }
             
             // return if selected piece is own piece
             if(e.target.id.includes(turn)) return
@@ -76,14 +85,14 @@ export const CreateGameboard = () => {
                 if(squares[i] !== null){
                     board.push(<Square key={i} props={ {id: layout[i], selectFuncs: selectPieceToMove, className} }></Square>)
                 } else {
-                    board.push(<Square key={i} props={{selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} color-square`
                 if (squares[i] !== null) {
                     board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             }
         } else {
@@ -92,14 +101,14 @@ export const CreateGameboard = () => {
                 if (squares[i] !== null) {
                     board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} plain-square`
                 if (squares[i] !== null) {
                     board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             }
         }

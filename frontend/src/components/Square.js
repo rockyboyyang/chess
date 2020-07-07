@@ -3,7 +3,7 @@ import React, { useState, } from 'react';
 const Square = ({props}) => {
     return (
     <>
-        <div id={`${props.id}`} className={props.className} onClick={props.selectFuncs}></div>
+        <div id={`${props.id}`} className={props.className} onClick={props.selectPieceToMove}></div>
     </>    
     )
 }

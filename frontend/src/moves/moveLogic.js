@@ -42,8 +42,24 @@ const bishopMoveLogic = (currentSpot, destination) => {
     }
 }
 
+const rookMoveLogic = (currentSpot, destination) => {
+    let modulo = currentSpot % 8;
+    let difference = 8 - modulo;
+    if (
+        // for vertical
+        Math.abs(currentSpot - destination) % 8 === 0 || 
+        // for horizontal
+        (destination >= (currentSpot - modulo) && destination < (currentSpot + difference))
+    ) return true;
+    else {
+        console.log('INVALID MOVE')
+        return;
+    }
+}
+
 export {
     pawnMoveLogic,
     knightMoveLogic,
     bishopMoveLogic,
+    rookMoveLogic,
 }
