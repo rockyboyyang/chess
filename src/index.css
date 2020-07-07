@@ -18,7 +18,7 @@
     align-items: center;
 }
 
-.color-square {
+.black-square {
     background-color: rgb(36, 36, 36);
 }
 
@@ -106,7 +106,7 @@
     background-size: 35px;
 }
 
-.plain-square:hover,
-.color-square:hover {
+.white-square:hover,
+.black-square:hover {
     border: 5px solid red;
 }

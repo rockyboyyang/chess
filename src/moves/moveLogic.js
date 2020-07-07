@@ -2,6 +2,7 @@ const pawnMoveLogic = (currentSpot, destination, turn) => {
     // ONLY FIRST MOVE
     // STILL NEED TO WRITE CODE ON HOW TO MOVE AFTER PAWN HAS ALREADY MOVED
     // AND ALSO HOW TO TAKE A PIECE THROUGH DIAGNOL
+
     if (turn === 'white') {
         if (currentSpot - destination === 8 || currentSpot - destination === 16) return true;
         else {
@@ -35,8 +36,9 @@ const knightMoveLogic = (currentSpot, destination) => {
 }
 
 // Going to be used for Bishops and Queens
-const diagnalMovement = (currentSpot, destination) => {
-    if (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) return true;
+const diagnalMovement = (currentSpot, destination, currentSquareColor, destSquareColor) => {
+    // squarecolor checks for bugs
+    if ((Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) && currentSquareColor === destSquareColor) return true;
     else {
         console.log('INVALID MOVE')
         return false;
@@ -59,8 +61,8 @@ const horizontalAndVerticalMovement = (currentSpot, destination) => {
     }
 }
 
-const bishopMoveLogic = (currentSpot, destination) => {
-    return diagnalMovement(currentSpot, destination)
+const bishopMoveLogic = (currentSpot, destination, currentSquareColor, destSquareColor) => {
+    return diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor)
 }
 
 const rookMoveLogic = (currentSpot, destination) => {
