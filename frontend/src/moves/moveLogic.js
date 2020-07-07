@@ -1,6 +1,7 @@
 const pawnMoveLogic = (currentSpot, destination, turn) => {
     // ONLY FIRST MOVE
     // STILL NEED TO WRITE CODE ON HOW TO MOVE AFTER PAWN HAS ALREADY MOVED
+    // AND ALSO HOW TO TAKE A PIECE THROUGH DIAGNOL
     if (turn === 'white') {
         if (currentSpot - destination === 8 || currentSpot - destination === 16) return true;
         else {
@@ -33,16 +34,17 @@ const knightMoveLogic = (currentSpot, destination) => {
     }
 }
 
-
-const bishopMoveLogic = (currentSpot, destination) => {
+// Going to be used for Bishops and Queens
+const diagnalMovement = (currentSpot, destination) => {
     if (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) return true;
     else {
-        console.log('INVALID MOVE') 
-        return;
+        console.log('INVALID MOVE')
+        return false;
     }
 }
 
-const rookMoveLogic = (currentSpot, destination) => {
+// Use for Queens and Rooks
+const horizontalAndVerticalMovement = (currentSpot, destination) => {
     let modulo = currentSpot % 8;
     let difference = 8 - modulo;
     if (
@@ -53,7 +55,36 @@ const rookMoveLogic = (currentSpot, destination) => {
     ) return true;
     else {
         console.log('INVALID MOVE')
-        return;
+        return false;
+    }
+}
+
+const bishopMoveLogic = (currentSpot, destination) => {
+    return diagnalMovement(currentSpot, destination)
+}
+
+const rookMoveLogic = (currentSpot, destination) => {
+    return horizontalAndVerticalMovement(currentSpot, destination)
+}
+
+const queenMoveLogic = (currentSpot, destination) => {
+    return (horizontalAndVerticalMovement(currentSpot, destination) || diagnalMovement(currentSpot, destination));
+}
+
+const kingMoveLogic = (currentSpot, destination) => {
+    if(
+        currentSpot - 9 === destination ||
+        currentSpot - 8 === destination ||
+        currentSpot - 7 === destination ||
+        currentSpot - 1 === destination ||
+        currentSpot + 8 === destination ||
+        currentSpot + 9 === destination ||
+        currentSpot + 7 === destination ||
+        currentSpot + 1 === destination
+    ) return true;
+    else {
+        console.log('INVALID MOVE')
+        return false;
     }
 }
 
@@ -62,4 +93,6 @@ export {
     knightMoveLogic,
     bishopMoveLogic,
     rookMoveLogic,
+    queenMoveLogic,
+    kingMoveLogic
 }

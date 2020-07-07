@@ -1,7 +1,7 @@
 import React, { useState, } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
-import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic } from '../moves/moveLogic'
+import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../moves/moveLogic'
 
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
@@ -67,6 +67,20 @@ export const CreateGameboard = () => {
                 }
             }
             
+            if (selectedPiece.includes('queen')) {
+                if (!queenMoveLogic(currentSpot, destination)) {
+                    setSelectedPiece('')
+                    return
+                }
+            }
+
+            if (selectedPiece.includes('king')) {
+                if (!kingMoveLogic(currentSpot, destination)) {
+                    setSelectedPiece('')
+                    return
+                }
+            }
+
             // return if selected piece is own piece
             if(e.target.id.includes(turn)) return
             e.target.id = selectedPiece;
@@ -83,14 +97,14 @@ export const CreateGameboard = () => {
             if(i % 2 === 0) {
                 className = `square-${i} plain-square`
                 if(squares[i] !== null){
-                    board.push(<Square key={i} props={ {id: layout[i], selectFuncs: selectPieceToMove, className} }></Square>)
+                    board.push(<Square key={i} props={ {id: layout[i], selectPieceToMove, className} }></Square>)
                 } else {
                     board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} color-square`
                 if (squares[i] !== null) {
-                    board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
                     board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
@@ -99,14 +113,14 @@ export const CreateGameboard = () => {
             if (i % 2 === 0) {
                 className = `square-${i} color-square`
                 if (squares[i] !== null) {
-                    board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
                     board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} plain-square`
                 if (squares[i] !== null) {
-                    board.push(<Square key={i} props={{ id: layout[i], selectFuncs: selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
                     board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
                 }
