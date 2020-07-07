@@ -46,14 +46,56 @@ const diagnalMovement = (currentSpot, destination, currentSquareColor, destSquar
 }
 
 // Use for Queens and Rooks
-const horizontalAndVerticalMovement = (currentSpot, destination) => {
+const horizontalAndVerticalMovement = (currentSpot, destination, layout) => {
+
+    function checkVerticalObstacle() {
+        let blockSpace = 0;
+        // checks if there are pieces in the way for vertical and horizontal
+        if (currentSpot > destination) {
+            for(let i = currentSpot - 8; i >= destination; i -= 8) {
+                blockSpace = i;
+                if(layout[i]) break;
+            }
+            if (blockSpace > destination) return false;
+        } else {
+            for (let i = currentSpot + 8; i <= destination; i += 8) {
+                blockSpace = i;
+                if (layout[i]) break;
+            }
+            if (blockSpace < destination) return false;
+        }
+        return true
+    }
+    
     let modulo = currentSpot % 8;
     let difference = 8 - modulo;
+    
+    // checks if there are pieces in the way for Horizontal Obstacle
+    function checkHorizontalObstacle() {
+        let blockSpace;
+        if (currentSpot > destination) {
+            for(let i = currentSpot - 1; i >= currentSpot - modulo; i--) {
+                blockSpace = i;
+                if(layout[i]) break;
+            }
+            if(blockSpace > destination) return false;
+
+        } else {
+            for(let i = currentSpot + 1; i < currentSpot + difference; i++) {
+                blockSpace = i;
+                if(layout[i]) break;
+            }
+            if(blockSpace < destination) return false;
+        }
+        console.log('hey')
+        return true
+    }
+
     if (
         // for vertical
-        Math.abs(currentSpot - destination) % 8 === 0 || 
+        (Math.abs(currentSpot - destination) % 8 === 0 && checkVerticalObstacle()) || 
         // for horizontal
-        (destination >= (currentSpot - modulo) && destination < (currentSpot + difference))
+        ((destination >= (currentSpot - modulo) && destination < (currentSpot + difference)) && checkHorizontalObstacle())
     ) return true;
     else {
         console.log('INVALID MOVE')
@@ -65,12 +107,14 @@ const bishopMoveLogic = (currentSpot, destination, currentSquareColor, destSquar
     return diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor)
 }
 
-const rookMoveLogic = (currentSpot, destination) => {
-    return horizontalAndVerticalMovement(currentSpot, destination)
+const rookMoveLogic = (currentSpot, destination, layout) => {
+    return horizontalAndVerticalMovement(currentSpot, destination, layout)
 }
 
-const queenMoveLogic = (currentSpot, destination) => {
-    return (horizontalAndVerticalMovement(currentSpot, destination) || diagnalMovement(currentSpot, destination));
+const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquareColor, layout) => {
+    return (
+    horizontalAndVerticalMovement(currentSpot, destination, layout) || 
+    diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor));
 }
 
 const kingMoveLogic = (currentSpot, destination) => {

@@ -66,14 +66,14 @@ export const CreateGameboard = () => {
             }
 
             if (selectedPiece.includes('rook')) {
-                if (!rookMoveLogic(currentSpot, destination)) {
+                if (!rookMoveLogic(currentSpot, destination, layout)) {
                     setSelectedPiece('')
                     return
                 }
             }
             
             if (selectedPiece.includes('queen')) {
-                if (!queenMoveLogic(currentSpot, destination)) {
+                if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
                     setSelectedPiece('')
                     return
                 }
