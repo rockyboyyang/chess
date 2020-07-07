@@ -1,0 +1,20 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "description": "An application for the game Chess.  Chess is a two-player strategy board game that is played on a 8 x 8 checker-patterned gameboard with 64 total squares.  A game played by millions of people worldwide.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rockyboyyang/chess.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rockyboyyang/chess/issues"
+  },
+  "homepage": "https://github.com/rockyboyyang/chess#readme"
+}
