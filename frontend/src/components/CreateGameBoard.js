@@ -88,6 +88,10 @@ export const CreateGameboard = () => {
             document.querySelector(`.${previousSelected}`).removeAttribute('id')
             if (turn === 'white') changeTurn('black')
             if (turn === 'black') changeTurn('white')
+            let tempArr = layout
+            tempArr[destination] = e.target.id
+            tempArr[currentSpot] = null;
+            setLayout(tempArr)
         }
     }
 

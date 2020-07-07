@@ -3,8 +3,20 @@
   "version": "1.0.0",
   "description": "An application for the game Chess.  Chess is a two-player strategy board game that is played on a 8 x 8 checker-patterned gameboard with 64 total squares.  A game played by millions of people worldwide.",
   "main": "index.js",
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
