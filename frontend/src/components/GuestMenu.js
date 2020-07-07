@@ -6,6 +6,7 @@ const GuestMenu = () => {
         <>
             <button className="play-button">Play</button>
             <Link to="/login">Logout</Link>
+            <Link to="/gameBoard">PLAY</Link>
         </>
     )
 }
