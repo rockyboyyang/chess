@@ -1,1 +1,1 @@
-web: frontend/bin/boot
+web: frontend/app/bin/boot
