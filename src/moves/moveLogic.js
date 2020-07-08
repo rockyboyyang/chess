@@ -105,7 +105,12 @@ const horizontalAndVerticalMovement = (currentSpot, destination, layout) => {
     const increment = Math.abs(currentSpot - destination) % 8 === 0 ? 8 : 1;
     const modulo = increment === 1 ? currentSpot % 8 : 0;
     const difference = increment === 1 ? 8 - modulo : 0;
-    return checkObstacle(currentSpot, destination, layout, increment, modulo, difference)
+    
+    if ((Math.abs(currentSpot - destination) % 8 === 0) || (destination >= (currentSpot - modulo) && destination < (currentSpot + difference))) {
+        if (checkObstacle(currentSpot, destination, layout, increment, modulo, difference) === false) return false
+        console.log('hey')
+        return true;
+    }
 }
 
 const bishopMoveLogic = (currentSpot, destination, currentSquareColor, destSquareColor, layout) => {

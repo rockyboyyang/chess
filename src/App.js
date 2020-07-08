@@ -2,7 +2,7 @@ import React from 'react';
 import Login from './components/Login';
 import GuestMenu from './components/GuestMenu'
 import GameBoard from './components/GameBoard'
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   return (

@@ -40,10 +40,7 @@ export const CreateGameboard = () => {
             const destination = Number(e.target.className.split(' ')[0].slice(7))
             const currentSquareColor = previousSelected.split(' ')[1]
             const destSquareColor = e.target.className.split(' ')[1]
-            // const currentSpot = previousSelected;
-            // const destination = e.target.className
-            // console.log(previousSelected)
-            // console.log(e.target.className)
+         
             if(selectedPiece.includes('pawn')) {
                 if (!pawnMoveLogic(currentSpot, destination, turn, layout)) {
                     setSelectedPiece('')
