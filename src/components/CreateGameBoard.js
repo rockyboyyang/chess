@@ -45,7 +45,7 @@ export const CreateGameboard = () => {
             // console.log(previousSelected)
             // console.log(e.target.className)
             if(selectedPiece.includes('pawn')) {
-                if (!pawnMoveLogic(currentSpot, destination, turn)) {
+                if (!pawnMoveLogic(currentSpot, destination, turn, layout)) {
                     setSelectedPiece('')
                     return
                 }
@@ -59,7 +59,7 @@ export const CreateGameboard = () => {
             }
             
             if(selectedPiece.includes('bishop')) {
-                if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor)) {
+                if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
                     setSelectedPiece('')
                     return
                 }
