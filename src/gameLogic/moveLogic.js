@@ -137,6 +137,37 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
         return false
     }
 
+    if(kingId === 'king-white') {
+        if(
+            layout[destination - 9] === 'king-black' ||
+            layout[destination - 8] === 'king-black'||
+            layout[destination - 7] === 'king-black'||
+            layout[destination - 1] === 'king-black'||
+            layout[destination + 9] === 'king-black'||
+            layout[destination + 8] === 'king-black'||
+            layout[destination + 7] === 'king-black'||
+            layout[destination + 1] === 'king-black'
+        ) {
+            console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
+            return false;
+        }
+    } else if (kingId === 'king-black') {
+        if(
+            layout[destination - 9] === 'king-white' ||
+            layout[destination - 8] === 'king-white' ||
+            layout[destination - 7] === 'king-white' ||
+            layout[destination - 1] === 'king-white' ||
+            layout[destination + 9] === 'king-white' ||
+            layout[destination + 8] === 'king-white' ||
+            layout[destination + 7] === 'king-white' ||
+            layout[destination + 1] === 'king-white'
+        ) {
+            console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
+            return false;
+        }
+    }   
+
+
     if (
         currentSpot - 9 === destination ||
         currentSpot - 8 === destination ||
