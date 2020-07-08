@@ -7,13 +7,15 @@ import { isChecked } from '../gameLogic/checkLogic';
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
     const board = [];
+    const classNameArray =[];
+    const [classArray, setClassArray] = useState([])
     const [layout, setLayout] = useState(squares)
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
     const [turn, changeTurn] = useState('white')
     const [check, setCheck] = useState(false)
-    const [whiteCasualties, setWhiteCasualties] = useState([])
-    const [blackCasualties, setBlackCasualties] = useState([])
+    // const [whiteCasualties, setWhiteCasualties] = useState([])
+    // const [blackCasualties, setBlackCasualties] = useState([])
 
     const selectPieceToMove = (e) => {
         if(turn === 'white'){
@@ -42,7 +44,8 @@ export const CreateGameboard = () => {
             const destination = Number(e.target.className.split(' ')[0].slice(7))
             const currentSquareColor = previousSelected.split(' ')[1]
             const destSquareColor = e.target.className.split(' ')[1]
-         
+            let opponentColor = turn === 'white' ? 'black' : 'white';
+
             if(selectedPiece.includes('pawn')) {
                 if (!pawnMoveLogic(currentSpot, destination, turn, layout)) {
                     setSelectedPiece('')
@@ -79,7 +82,7 @@ export const CreateGameboard = () => {
             }
 
             if (selectedPiece.includes('king')) {
-                if (!kingMoveLogic(currentSpot, destination)) {
+                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor)) {
                     setSelectedPiece('')
                     return
                 }
@@ -98,10 +101,9 @@ export const CreateGameboard = () => {
             setLayout(tempArr)
             // king grabs the opposing king
             let king = turn === 'white' ? document.querySelector(`#king-black`).className : document.querySelector(`#king-white`).className
-            let opponentColor = turn === 'white' ? 'black' : 'white';
             let kingSpot = Number(king.split(' ')[0].slice(7))
-
-            if(isChecked(kingSpot, king, turn, layout, opponentColor)){
+            let kingSquare = king.split(' ')[1]
+            if(isChecked(kingSpot, turn, layout, kingSquare)){
                 console.log('checked')
                 setCheck('checked')
             } 
@@ -145,7 +147,6 @@ export const CreateGameboard = () => {
         }
     }
 
-    
 
     return (
         <>

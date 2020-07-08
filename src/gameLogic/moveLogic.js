@@ -1,3 +1,5 @@
+import { isChecked } from './checkLogic';
+
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
 
     const whiteArr = [48, 49, 50, 51, 52, 53, 54, 55]
@@ -126,7 +128,15 @@ const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquare
         diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor, layout));
 }
 
-const kingMoveLogic = (currentSpot, destination) => {
+const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor) => {
+    console.log(opponentColor)
+    console.log(isChecked(destination, opponentColor, layout, destSquareColor))
+    console.log(destSquareColor)
+    if(isChecked(destination, opponentColor, layout, destSquareColor)) {
+        console.log('INVALID: KING WILL BE IN CHECK')
+        return false
+    }
+
     if (
         currentSpot - 9 === destination ||
         currentSpot - 8 === destination ||
