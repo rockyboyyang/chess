@@ -128,12 +128,12 @@ const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquare
         diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor, layout));
 }
 
-const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor) => {
-    console.log(opponentColor)
-    console.log(isChecked(destination, opponentColor, layout, destSquareColor))
-    console.log(destSquareColor)
-    if(isChecked(destination, opponentColor, layout, destSquareColor)) {
-        console.log('INVALID: KING WILL BE IN CHECK')
+const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor, kingId) => {
+    // console.log(opponentColor)
+    // console.log(isChecked(destination, opponentColor, layout, destSquareColor))
+    // console.log(destSquareColor)
+    if(isChecked(destination, opponentColor, layout, destSquareColor, kingId)) {
+        console.log('INVALID MOVE: YOU WILL BE IN CHECK')
         return false
     }
 

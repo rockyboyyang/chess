@@ -1,4 +1,5 @@
-function isChecked (kingSpot, color, layout, kingSquare) {
+function isChecked (kingSpot, color, layout, kingSquare, kingId) {
+    // console.log(kingSpot, color, layout, kingSquare)
     function queenRookAndBishopLoop(queen, rookOrBishop, i) {
         if (layout[i] !== null && (layout[i] !== `${queen}-${color}` && layout[i] !== `${rookOrBishop}-${color}`)) {
             // console.log('break')
@@ -68,6 +69,16 @@ function isChecked (kingSpot, color, layout, kingSquare) {
         layout[kingSpot + 10] === `knight-${color}` ||
         layout[kingSpot + 6] === `knight-${color}`
     ) return true;
+    
+    if(kingId === 'king-white') {
+        if (layout[kingSpot - 9] === `pawn-black` || layout[kingSpot - 7] === `pawn-black`) {
+            return true;
+        }
+    } else if(kingId === 'king-black') {
+        if (layout[kingSpot + 9] === `pawn-white` || layout[kingSpot + 7] === `pawn-white`) {
+            return true;
+        }
+    }
 
     return false
 }

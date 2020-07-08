@@ -14,6 +14,7 @@ export const CreateGameboard = () => {
     const [previousSelected, setPreviousSelected] = useState('')
     const [turn, changeTurn] = useState('white')
     const [check, setCheck] = useState(false)
+    const [gameStatus, setGameStatus] = useState('')
     // const [whiteCasualties, setWhiteCasualties] = useState([])
     // const [blackCasualties, setBlackCasualties] = useState([])
 
@@ -82,30 +83,50 @@ export const CreateGameboard = () => {
             }
 
             if (selectedPiece.includes('king')) {
-                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor)) {
+                let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id)) {
                     setSelectedPiece('')
                     return
                 }
             }
+            
+            // console.log(selectedPiece)
+            let tempArr = layout
+
+            //  Checks to see if you can safely move a piece without
+            // putting your king in check
+            if(!selectedPiece.includes('king')){
+                tempArr[destination] = selectedPiece
+                tempArr[currentSpot] = null;
+                let king = turn === 'white' ? document.querySelector(`#king-white`): document.querySelector(`#king-black`)
+                let kingSpot = Number(king.className.split(' ')[0].slice(7))
+                let kingSquare = king.className.split(' ')[1]
+                if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
+                    console.log('INVALID MOVE: YOU WILL BE IN CHECK')
+                    tempArr[destination] = null
+                    tempArr[currentSpot] = selectedPiece;
+                    setSelectedPiece('')
+                    return;
+                } 
+            }
 
             // return if selected piece is own piece
-            if(e.target.id.includes(turn)) return
+            if (e.target.id.includes(turn)) return
             e.target.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
             if (turn === 'white') changeTurn('black')
             if (turn === 'black') changeTurn('white')
-            let tempArr = layout
             tempArr[destination] = e.target.id
             tempArr[currentSpot] = null;
             setLayout(tempArr)
             // king grabs the opposing king
-            let king = turn === 'white' ? document.querySelector(`#king-black`).className : document.querySelector(`#king-white`).className
-            let kingSpot = Number(king.split(' ')[0].slice(7))
-            let kingSquare = king.split(' ')[1]
-            if(isChecked(kingSpot, turn, layout, kingSquare)){
-                console.log('checked')
-                setCheck('checked')
+            let king = turn === 'white' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
+            let kingSpot = Number(king.className.split(' ')[0].slice(7))
+            let kingSquare = king.className.split(' ')[1]
+            if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
+                console.log('CHECK!')
+                setCheck('Check!')
             } 
         }
     }
