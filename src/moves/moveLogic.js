@@ -1,10 +1,10 @@
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
-    
+
     const whiteArr = [48, 49, 50, 51, 52, 53, 54, 55]
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
-    
+
     if (turn === 'white') {
-        if(whiteArr.includes(currentSpot)) {
+        if (whiteArr.includes(currentSpot)) {
             if ((currentSpot - destination === 8 || currentSpot - destination === 16) && layout[currentSpot - 8] === null && layout[destination] === null) return true;
         } else {
             if (currentSpot - destination === 8 && layout[currentSpot - 8] === null) return true;
@@ -35,7 +35,7 @@ const knightMoveLogic = (currentSpot, destination) => {
         currentSpot + 17 === destination ||
         currentSpot + 15 === destination ||
         currentSpot + 10 === destination ||
-        currentSpot + 6 === destination 
+        currentSpot + 6 === destination
     ) return true
     else {
         console.log('INVALID MOVE')
@@ -48,10 +48,10 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
     // increment wlll be 8 on vertical movement
     console.log(increment)
     console.log(modulo, difference)
-    
+
     let blockSpace;
     // blockspace will represent the first space that has a piece on it
-    if(modulo && difference) {
+    if (modulo && difference) {
         if (currentSpot > destination) {
             for (let i = currentSpot - increment; i >= currentSpot - modulo; i--) {
                 blockSpace = i;
@@ -89,9 +89,9 @@ const diagnalMovement = (currentSpot, destination, currentSquareColor, destSquar
     const increment = (Math.abs(currentSpot - destination) % 9 === 0) ? 9 : 7;
     // squarecolor checks for bugs
     if (
-    (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) && 
-    (currentSquareColor === destSquareColor) && 
-    checkObstacle(currentSpot, destination, layout, increment)
+        (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) &&
+        (currentSquareColor === destSquareColor) &&
+        checkObstacle(currentSpot, destination, layout, increment)
     ) return true;
 
     else {
@@ -105,7 +105,7 @@ const horizontalAndVerticalMovement = (currentSpot, destination, layout) => {
     const increment = Math.abs(currentSpot - destination) % 8 === 0 ? 8 : 1;
     const modulo = increment === 1 ? currentSpot % 8 : 0;
     const difference = increment === 1 ? 8 - modulo : 0;
-    
+
     if ((Math.abs(currentSpot - destination) % 8 === 0) || (destination >= (currentSpot - modulo) && destination < (currentSpot + difference))) {
         if (checkObstacle(currentSpot, destination, layout, increment, modulo, difference) === false) return false
         console.log('hey')
@@ -123,12 +123,12 @@ const rookMoveLogic = (currentSpot, destination, layout) => {
 
 const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquareColor, layout) => {
     return (
-    horizontalAndVerticalMovement(currentSpot, destination, layout) || 
-    diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor, layout));
+        horizontalAndVerticalMovement(currentSpot, destination, layout) ||
+        diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor, layout));
 }
 
 const kingMoveLogic = (currentSpot, destination) => {
-    if(
+    if (
         currentSpot - 9 === destination ||
         currentSpot - 8 === destination ||
         currentSpot - 7 === destination ||
