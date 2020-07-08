@@ -101,7 +101,10 @@ export const CreateGameboard = () => {
             let opponentColor = turn === 'white' ? 'black' : 'white';
             let kingSpot = Number(king.split(' ')[0].slice(7))
 
-            if(isChecked(kingSpot, king, turn, layout, opponentColor)) console.log('checked')
+            if(isChecked(kingSpot, king, turn, layout, opponentColor)){
+                console.log('checked')
+                setCheck('checked')
+            } 
         }
     }
 
