@@ -108,7 +108,6 @@ const horizontalAndVerticalMovement = (currentSpot, destination, layout) => {
 
     if ((Math.abs(currentSpot - destination) % 8 === 0) || (destination >= (currentSpot - modulo) && destination < (currentSpot + difference))) {
         if (checkObstacle(currentSpot, destination, layout, increment, modulo, difference) === false) return false
-        console.log('hey')
         return true;
     }
 }
