@@ -1,6 +1,8 @@
 function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     // console.log(kingSpot, color, layout, kingSquare)
+    // console.log(kingId)
     function queenRookAndBishopLoop(queen, rookOrBishop, i) {
+        // if(layout[i] === kingId)
         if (layout[i] !== null && (layout[i] !== `${queen}-${color}` && layout[i] !== `${rookOrBishop}-${color}`)) {
             // console.log('break')
             return false
@@ -14,6 +16,7 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     // Checks vertically for Queens and Rooks
 
     for(let i = kingSpot + 8; i < 64; i += 8) {
+        if(layout[i] === kingId) continue
         if (queenRookAndBishopLoop('queen', 'rook', i)) return true
         else if (queenRookAndBishopLoop('queen', 'rook', i) === false) break;
     }
@@ -27,10 +30,12 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     const difference = 8 - modulo;
 
     for(let i = kingSpot - 1; i >= kingSpot - modulo; i--) {
+        if (layout[i] === kingId) continue
         if (queenRookAndBishopLoop('queen', 'rook', i)) return true
         else if (queenRookAndBishopLoop('queen', 'rook', i) === false) break;
     }
     for (let i = kingSpot + 1; i < kingSpot + difference; i++) {
+        if (layout[i] === kingId) continue
         if (queenRookAndBishopLoop('queen', 'rook', i)) return true
         else if (queenRookAndBishopLoop('queen', 'rook', i) === false) break;
     }
@@ -38,21 +43,25 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
 
     // Checks Diagnally for Queens and Bishops
     for (let i = kingSpot + 9; i < 64; i += 9) {
+        if (layout[i] === kingId) continue
         const checkedSquares = document.querySelector(`.square-${i}`).className.split(' ')[1]
         if (queenRookAndBishopLoop('queen', 'bishop', i) && checkedSquares === kingSquare) return true
         else if (queenRookAndBishopLoop('queen', 'bishop', i) === false) break;
     }
     for (let i = kingSpot - 9; i >= 0; i -= 9) {
+        if (layout[i] === kingId) continue
         const checkedSquares = document.querySelector(`.square-${i}`).className.split(' ')[1]
         if (queenRookAndBishopLoop('queen', 'bishop', i) && checkedSquares === kingSquare) return true
         else if (queenRookAndBishopLoop('queen', 'bishop', i) === false) break;
     } 
     for (let i = kingSpot + 7; i < 64; i += 7) {
+        if (layout[i] === kingId) continue
         const checkedSquares = document.querySelector(`.square-${i}`).className.split(' ')[1]
         if (queenRookAndBishopLoop('queen', 'bishop', i) && checkedSquares === kingSquare) return true
         else if (queenRookAndBishopLoop('queen', 'bishop', i) === false) break;
     }
     for (let i = kingSpot - 7; i >= 0; i -= 7) {
+        if (layout[i] === kingId) continue
         const checkedSquares = document.querySelector(`.square-${i}`).className.split(' ')[1]
         if (queenRookAndBishopLoop('queen', 'bishop', i) && checkedSquares === kingSquare) return true
         else if (queenRookAndBishopLoop('queen', 'bishop', i) === false) break;
