@@ -19,7 +19,7 @@ export const CreateGameboard = () => {
     
     const selectPieceToMove = (e) => {
         if(gameStatus === 'CHECKMATE!') return;
-
+        setGameStatus('PLAYING')
         if(turn === 'white'){
             if(!selectedPiece) {
                 if(e.target.id === 'undefined') return
@@ -55,6 +55,7 @@ export const CreateGameboard = () => {
 
             if(selectedPiece.includes('pawn')) {
                 if (!pawnMoveLogic(currentSpot, destination, turn, layout)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -62,6 +63,7 @@ export const CreateGameboard = () => {
 
             if (selectedPiece.includes('knight')) {
                 if (!knightMoveLogic(currentSpot, destination)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -69,6 +71,7 @@ export const CreateGameboard = () => {
             
             if(selectedPiece.includes('bishop')) {
                 if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -76,6 +79,7 @@ export const CreateGameboard = () => {
 
             if (selectedPiece.includes('rook')) {
                 if (!rookMoveLogic(currentSpot, destination, layout)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -83,6 +87,7 @@ export const CreateGameboard = () => {
             
             if (selectedPiece.includes('queen')) {
                 if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -91,6 +96,7 @@ export const CreateGameboard = () => {
             if (selectedPiece.includes('king')) {
                 let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
                 if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id)) {
+                    setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
@@ -107,7 +113,7 @@ export const CreateGameboard = () => {
                 let kingSpot = Number(king.className.split(' ')[0].slice(7))
                 let kingSquare = king.className.split(' ')[1]
                 if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
-                    console.log('INVALID MOVE: YOU WILL BE IN CHECK')
+                    setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
                     tempArr[destination] = null
                     tempArr[currentSpot] = selectedPiece;
                     setSelectedPiece('')
@@ -127,7 +133,7 @@ export const CreateGameboard = () => {
             let king = turn === 'white' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
-            if (gameStatus === 'CHECK!') setGameStatus('')
+            if (gameStatus) setGameStatus('PLAYING')
             if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
                 setGameStatus('CHECK!')
             } 

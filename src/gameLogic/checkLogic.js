@@ -213,13 +213,15 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         //     isChecked(kingSpot, color, layout, kingSquare, kingId) &&
         //     !pawnMoveLogic(currentSpot, destination, turn, layout)
         // )
-
+        console.log(gapArray)
         if(color === 'white') {
+            console.log('white')
             if (gapArray[i] - 16 >= 0) {
-                if (pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor, layout) && gapArray[i] - 16 <= 0) return false;
+                if (pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor, layout)) return false;
             }
             if (pawnMoveLogic(gapArray[i] - 8, gapArray[i], opponentColor, layout)) return false;
         } else {
+            console.log('black')
             if (gapArray[i] + 16 <= 63){
                 if (pawnMoveLogic(gapArray[i] + 16, gapArray[i], opponentColor, layout)) return false;
             }

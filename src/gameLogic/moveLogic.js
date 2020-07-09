@@ -1,6 +1,11 @@
 import { isChecked } from './checkLogic';
 
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
+    if(layout[currentSpot] === null) return false;
+    if(layout[currentSpot] !== null) {
+        if(!layout[currentSpot].includes('pawn')) return false;
+    }
+    console.log(currentSpot, destination, layout[currentSpot])
     const whiteArr = [48, 49, 50, 51, 52, 53, 54, 55]
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
     if (turn === 'white') {
