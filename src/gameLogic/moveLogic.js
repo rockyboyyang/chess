@@ -29,7 +29,44 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
 }
 
 const knightMoveLogic = (currentSpot, destination) => {
-    if (
+    const colOne = [0, 8, 16, 24, 32, 40, 48, 56]
+    const colTwo = [1, 9, 17, 25, 33, 41, 49, 57]
+    const colSeven = [6, 14, 22, 30, 38, 46, 54, 62]
+    const colEight = [7, 15, 23, 31, 39, 47, 55, 63]
+
+    if(colOne.includes(currentSpot)) {
+        if(
+            currentSpot - 15 === destination ||
+            currentSpot - 6 === destination ||
+            currentSpot + 10 === destination ||
+            currentSpot + 17 === destination
+        ) return true
+    } else if(colTwo.includes(currentSpot)) {
+        if(
+            currentSpot - 17 === destination ||
+            currentSpot - 15 === destination ||
+            currentSpot - 6 === destination ||
+            currentSpot + 10 === destination ||
+            currentSpot + 15 === destination ||
+            currentSpot + 17 === destination
+        ) return true
+    } else if(colSeven.includes(currentSpot)) {
+        if(
+            currentSpot - 17 === destination ||
+            currentSpot - 10 === destination ||
+            currentSpot - 15 === destination ||
+            currentSpot + 6 === destination ||
+            currentSpot + 15 === destination ||
+            currentSpot + 17 === destination
+        ) return true
+    } else if(colEight.includes(currentSpot)) {
+        if(
+            currentSpot - 17 === destination ||
+            currentSpot - 10 === destination ||
+            currentSpot + 6 === destination ||
+            currentSpot + 15 === destination
+        ) return true
+    } else if (
         currentSpot - 17 === destination ||
         currentSpot - 15 === destination ||
         currentSpot - 10 === destination ||
