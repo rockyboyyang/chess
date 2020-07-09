@@ -19,6 +19,7 @@ export const CreateGameboard = () => {
     // const [blackCasualties, setBlackCasualties] = useState([])
 
     const selectPieceToMove = (e) => {
+        
         if(turn === 'white'){
             if(!selectedPiece) {
                 if(e.target.id === 'undefined') return
@@ -40,6 +41,11 @@ export const CreateGameboard = () => {
         }
         
         if (selectedPiece) {
+            // returns if clicks on own piece
+            if (e.target.id.includes(turn)) {
+                setSelectedPiece('')
+                return
+            }
             // check for valid moves
             const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
             const destination = Number(e.target.className.split(' ')[0].slice(7))
@@ -90,7 +96,6 @@ export const CreateGameboard = () => {
                 }
             }
             
-            // console.log(selectedPiece)
             let tempArr = layout
 
             //  Checks to see if you can safely move a piece without
@@ -110,8 +115,6 @@ export const CreateGameboard = () => {
                 } 
             }
 
-            // return if selected piece is own piece
-            if (e.target.id.includes(turn)) return
             e.target.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
