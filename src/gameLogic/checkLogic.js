@@ -193,7 +193,7 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         let noIncludes = [-6, -5, -4, -3, -2, 0, 2, 3, 4, 5, 6]
         let newDest = kingSpot + i;
         if(newDest < 0 || noIncludes.includes(i)) continue;
-        // console.log(newDest, i)
+        if(layout[i] !== null) continue
         let destDiv = document.querySelector(`.square-${newDest}`)
         let newDestSquareColor = destDiv.className.split(' ')[1]
         // if(destDiv.id.includes(`${opponentColor}`)) return false;
