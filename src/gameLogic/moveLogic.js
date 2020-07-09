@@ -10,10 +10,8 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
     if (turn === 'white') {
         if (whiteArr.includes(currentSpot)) {
-            // console.log(currentSpot, destination, layout[currentSpot])
             if ((currentSpot - destination === 8 || currentSpot - destination === 16) && layout[currentSpot - 8] === null && layout[destination] === null) return true;
         } else {
-            // console.log(currentSpot, destination, layout[currentSpot])
             if (currentSpot - destination === 8 && layout[currentSpot - 8] === null) return true;
         }
         if (layout[destination] && destination === currentSpot - 7) return true
@@ -170,10 +168,53 @@ const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquare
         diagnalMovement(currentSpot, destination, currentSquareColor, destSquareColor, layout));
 }
 
-const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor, kingId) => {
-    // console.log(opponentColor)
-    // console.log(isChecked(destination, opponentColor, layout, destSquareColor))
-    // console.log(destSquareColor)
+const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor, kingId, ifMoved) => {
+    
+    if(Math.abs(currentSpot - destination) === 2) {
+        const {
+            blackKingMove,
+            whiteKingMove,
+            whiteRook1Move,
+            whiteRook2Move,
+            blackRook1Move,
+            blackRook2Move,
+        } = ifMoved;
+        // castling
+        const rightRookSpot = currentSpot + 3
+        const leftRookSpot = currentSpot - 4
+        if(
+            kingId === 'king-white' && 
+            whiteRook2Move === false && 
+            whiteKingMove === false &&
+            layout[currentSpot + 1] === null &&
+            layout[currentSpot + 2] === null &&
+            currentSpot + 2 === destination
+        )  return true
+        else if (
+            kingId === 'king-white' &&
+            whiteRook1Move === false &&
+            whiteKingMove === false &&
+            layout[currentSpot - 1] === null &&
+            layout[currentSpot - 2] === null &&
+            currentSpot - 2 === destination
+        ) return true
+        else if (
+            kingId === 'king-black' &&
+            blackRook1Move === false &&
+            blackKingMove === false &&
+            layout[currentSpot - 1] === null &&
+            layout[currentSpot - 2] === null &&
+            currentSpot - 2 === destination
+        ) return true
+        else if (
+            kingId === 'king-black' &&
+            blackRook2Move === false &&
+            blackKingMove === false &&
+            layout[currentSpot + 1] === null &&
+            layout[currentSpot + 2] === null &&
+            currentSpot + 2 === destination
+        ) return true
+    }
     const colTwo = [1, 9, 17, 25, 33, 41, 49, 57]
     const colSeven = [6, 14, 22, 30, 38, 46, 54, 62]
     const leftSide = [0, 8, 16, 24, 32, 40, 48, 56]

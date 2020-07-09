@@ -15,9 +15,11 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     border: 1px solid black;
+    /* transform: rotate(180deg); ; */
 }
 
 .game-board > div {
+    /* transform: rotate(180deg); ; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,14 +29,28 @@
     background-color: rgb(36, 36, 36);
 }
 
-#rook-black {
+#rook-black-1 {
     background-image: url(./images/black-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 35px;
 }
 
-#rook-white {
+#rook-black-2 {
+    background-image: url(./images/black-rook.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+#rook-white-1 {
+    background-image: url(./images/white-rook.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+#rook-white-2 {
     background-image: url(./images/white-rook.svg);
     background-repeat: no-repeat;
     background-position: center;

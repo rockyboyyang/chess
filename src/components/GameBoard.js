@@ -5,7 +5,7 @@ import { GameBoardContext } from '../context/GameBoardContext'
 const GameBoard = () => {
     const [turn, changeTurn] = useState('white')
     const [gameStatus, setGameStatus] = useState('PLAYING')
-
+    
     return (
         <GameBoardContext.Provider value={{ gameStatus, setGameStatus, turn, changeTurn }}>
             <h1 id="gameStatus">Game Status: {gameStatus}</h1>

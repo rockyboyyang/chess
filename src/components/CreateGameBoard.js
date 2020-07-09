@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
 import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../gameLogic/moveLogic'
-import { isChecked, isCheckmate } from '../gameLogic/checkLogic';
+import { isChecked } from '../gameLogic/checkLogic';
+import { isCheckmate } from '../gameLogic/isCheckmateLogic'
 import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
@@ -12,11 +13,25 @@ export const CreateGameboard = () => {
     const [layout, setLayout] = useState(squares)
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
+    const [blackKingMove, setBlackKingMove] = useState(false)
+    const [whiteKingMove, setWhiteKingMove] = useState(false)
+    const [whiteRook1Move, setWhiteRook1Move] = useState(false)
+    const [whiteRook2Move, setWhiteRook2Move] = useState(false)
+    const [blackRook1Move, setBlackRook1Move] = useState(false)
+    const [blackRook2Move, setBlackRook2Move] = useState(false)
     // const [turn, changeTurn] = useState('white')
     // const [gameStatus, setGameStatus] = useState('')
     // const [whiteCasualties, setWhiteCasualties] = useState([])
     // const [blackCasualties, setBlackCasualties] = useState([])
-    
+    const ifMoved = {
+        blackKingMove,
+        whiteKingMove,
+        whiteRook1Move,
+        whiteRook2Move,
+        blackRook1Move,
+        blackRook2Move,
+    }
+
     const selectPieceToMove = (e) => {
         if(gameStatus === 'CHECKMATE!') return;
         setGameStatus('PLAYING')
@@ -77,12 +92,40 @@ export const CreateGameboard = () => {
                 }
             }
 
-            if (selectedPiece.includes('rook')) {
+            if (selectedPiece === 'rook-white-1') {
                 if (!rookMoveLogic(currentSpot, destination, layout)) {
                     setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
+                setWhiteRook1Move(true)
+            }
+
+            if (selectedPiece === 'rook-white-2') {
+                if (!rookMoveLogic(currentSpot, destination, layout)) {
+                    setGameStatus('INVALID MOVE')
+                    setSelectedPiece('')
+                    return
+                }
+                setWhiteRook2Move(true)
+            }
+
+            if (selectedPiece === 'rook-black-1') {
+                if (!rookMoveLogic(currentSpot, destination, layout)) {
+                    setGameStatus('INVALID MOVE')
+                    setSelectedPiece('')
+                    return
+                }
+                setBlackRook1Move(true)
+            }
+
+            if (selectedPiece === 'rook-black-2') {
+                if (!rookMoveLogic(currentSpot, destination, layout)) {
+                    setGameStatus('INVALID MOVE')
+                    setSelectedPiece('')
+                    return
+                }
+                setBlackRook2Move(true)
             }
             
             if (selectedPiece.includes('queen')) {
@@ -95,7 +138,7 @@ export const CreateGameboard = () => {
 
             if (selectedPiece.includes('king')) {
                 let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
-                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id)) {
+                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id, ifMoved )) {
                     setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
@@ -119,6 +162,33 @@ export const CreateGameboard = () => {
                     setSelectedPiece('')
                     return;
                 } 
+            }
+
+            // checks castling
+            if (selectedPiece.includes('king') && Math.abs(currentSpot - destination) === 2) {
+                let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                for(let i = - 2; i < 0; i ++) {
+                    let coloredSquare = document.querySelector(`.square-${currentSpot - i}`).className.split(' ')[1]
+                    if(isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                        setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
+                        return
+                    }
+                }
+                for (let i = 2; i > 0; i--) {
+                    let coloredSquare = document.querySelector(`.square-${currentSpot + i}`).className.split(' ')[1]
+                    if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                        setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
+                        return
+                    }
+                }
+                if(currentSpot > destination) {
+                    layout[currentSpot - 1] = layout[currentSpot - 4]
+                    layout[currentSpot - 4] = null;
+                } else if (currentSpot < destination) {
+                    layout[currentSpot + 1] = layout[currentSpot + 3]
+                    layout[currentSpot + 3] = null;
+                }
+                turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
             }
 
             e.target.id = selectedPiece;
