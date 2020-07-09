@@ -1,25 +1,25 @@
-import React, { useState, } from 'react';
+import React, { useState, useContext } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
 import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../gameLogic/moveLogic'
 import { isChecked, isCheckmate } from '../gameLogic/checkLogic';
+import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
+    const { gameStatus, setGameStatus, turn, changeTurn } = useContext(GameBoardContext)
     const squares = readyUpChessBoard();
     const board = [];
-    const classNameArray =[];
-    const [classArray, setClassArray] = useState([])
     const [layout, setLayout] = useState(squares)
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
-    const [turn, changeTurn] = useState('white')
-    const [gameStatus, setGameStatus] = useState('')
+    // const [turn, changeTurn] = useState('white')
+    // const [gameStatus, setGameStatus] = useState('')
     // const [whiteCasualties, setWhiteCasualties] = useState([])
     // const [blackCasualties, setBlackCasualties] = useState([])
     
     const selectPieceToMove = (e) => {
-        if(gameStatus === 'checkmate') return;
-        
+        if(gameStatus === 'CHECKMATE!!!') return;
+
         if(turn === 'white'){
             if(!selectedPiece) {
                 if(e.target.id === 'undefined') return
@@ -127,9 +127,9 @@ export const CreateGameboard = () => {
             let king = turn === 'white' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
+            if (gameStatus === 'CHECK!') setGameStatus('')
             if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
-                setGameStatus('check')
-                console.log('CHECK!')
+                setGameStatus('CHECK!')
             } 
             if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('checkmate')
         }

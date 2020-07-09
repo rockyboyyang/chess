@@ -4,6 +4,10 @@
     flex-direction: column;
     align-items: center;
 }
+
+#game-status {
+    position: absolute;
+}
 .game-board {
     height: 500px;
     width: 500px;
@@ -15,6 +19,7 @@
 
 .game-board > div {
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
