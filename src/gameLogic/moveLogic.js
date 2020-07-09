@@ -48,8 +48,8 @@ const knightMoveLogic = (currentSpot, destination) => {
 function checkObstacle(currentSpot, destination, layout, increment, modulo, difference) {
     // increment will either be 7 or 9 depending on the destination of diagnal movement
     // increment wlll be 8 on vertical movement
-    console.log(increment)
-    console.log(modulo, difference)
+    // console.log(increment)
+    // console.log(modulo, difference)
 
     let blockSpace;
     // blockspace will represent the first space that has a piece on it

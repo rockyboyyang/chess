@@ -79,13 +79,45 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
         layout[kingSpot + 6] === `knight-${color}`
     ) return true;
     
-    if(kingId === 'king-white') {
-        if (layout[kingSpot - 9] === `pawn-black` || layout[kingSpot - 7] === `pawn-black`) {
-            return true;
+    const upLeft = kingSpot - 9;
+    const upRight = kingSpot - 7;
+    const downLeft = kingSpot + 7;
+    const downRight = kingSpot + 9;
+    // const checkedSquaresNine = kingId === 'king-white' ? document.querySelector(`.square-${upLeft}`).className.split(' ')[1] : document.querySelector(`.square-${downRight}`).className.split(' ')[1]
+    // const checkedSquaresSeven = kingId === 'king-white' ? document.querySelector(`.square-${upRight}`).className.split(' ')[1] : document.querySelector(`.square-${downLeft}`).className.split(' ')[1]
+    // console.log(checkedSquaresSeven, checkedSquaresNine, kingSquare)
+    const leftSide = [0, 8, 16, 24, 32, 40, 48, 56]
+    const rightSide = [7, 15, 23, 31, 39, 47, 55, 63]
+
+    if(leftSide.includes(kingSpot)) {
+        if(kingId === 'king-white') {
+            if (layout[upRight] === `pawn-black`) {
+                return true;
+            }
+        } else if(kingId === 'king-black') {
+            if (layout[downLeft] === `pawn-white`) {
+                return true;
+            }
         }
-    } else if(kingId === 'king-black') {
-        if (layout[kingSpot + 9] === `pawn-white` || layout[kingSpot + 7] === `pawn-white`) {
-            return true;
+    } else if (rightSide.includes(kingSpot)) {
+        if (kingId === 'king-white') {
+            if (layout[upRight] === `pawn-black`) {
+                return true;
+            }
+        } else if (kingId === 'king-black') {
+            if (layout[downLeft] === `pawn-white`) {
+                return true;
+            }
+        }
+    } else {
+        if(kingId === 'king-white') {
+            if (layout[upLeft] === `pawn-black` || layout[upRight] === `pawn-black`) {
+                return true;
+            }
+        } else if(kingId === 'king-black') {
+            if (layout[downRight] === `pawn-white` || layout[downLeft] === `pawn-white`) {
+                return true;
+            }
         }
     }
 
