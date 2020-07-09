@@ -25,32 +25,22 @@
     align-items: center;
 }
 
+.white-square {
+    background-color: rgb(240, 217, 181);
+}
+
 .black-square {
-    background-color: rgb(36, 36, 36);
+    background-color: rgb(181, 136, 99);
 }
 
-#rook-black-1 {
+#rook-black{
     background-image: url(./images/black-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 35px;
 }
 
-#rook-black-2 {
-    background-image: url(./images/black-rook.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 35px;
-}
-
-#rook-white-1 {
-    background-image: url(./images/white-rook.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 35px;
-}
-
-#rook-white-2 {
+#rook-white {
     background-image: url(./images/white-rook.svg);
     background-repeat: no-repeat;
     background-position: center;

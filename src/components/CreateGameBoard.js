@@ -31,6 +31,7 @@ export const CreateGameboard = () => {
         blackRook1Move,
         blackRook2Move,
     }
+    
 
     const selectPieceToMove = (e) => {
         if(gameStatus === 'CHECKMATE!') return;
@@ -92,42 +93,14 @@ export const CreateGameboard = () => {
                 }
             }
 
-            if (selectedPiece === 'rook-white-1') {
+            if (selectedPiece.includes('rook')) {
                 if (!rookMoveLogic(currentSpot, destination, layout)) {
                     setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
                 }
-                setWhiteRook1Move(true)
             }
 
-            if (selectedPiece === 'rook-white-2') {
-                if (!rookMoveLogic(currentSpot, destination, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
-                }
-                setWhiteRook2Move(true)
-            }
-
-            if (selectedPiece === 'rook-black-1') {
-                if (!rookMoveLogic(currentSpot, destination, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
-                }
-                setBlackRook1Move(true)
-            }
-
-            if (selectedPiece === 'rook-black-2') {
-                if (!rookMoveLogic(currentSpot, destination, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
-                }
-                setBlackRook2Move(true)
-            }
-            
             if (selectedPiece.includes('queen')) {
                 if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
                     setGameStatus('INVALID MOVE')
@@ -204,11 +177,24 @@ export const CreateGameboard = () => {
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
             if (gameStatus) setGameStatus('PLAYING')
+            
             if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
                 setGameStatus('CHECK!')
             } 
+
+            // checks if either rook moved
+            if (layout[0] === null) {
+                setBlackRook1Move(true)
+            } else if (layout[7] === null) {
+                setBlackRook2Move(true)
+            } else if (layout[56] === null) {
+                setWhiteRook1Move(true)
+            } else if (layout[63] === null) {
+                setWhiteRook2Move(true)
+            }
+
             if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
-        }
+        } 
     }
 
     for(let i = 0; i < 64; i++) {

@@ -5,10 +5,10 @@ export default function readyUpChessBoard() {
         squares[i] ='pawn-black';
         squares[i + 40] = 'pawn-white';
     }
-    squares[0] = 'rook-black-1'
-    squares[7] = 'rook-black-2';
-    squares[56] = 'rook-white-1';
-    squares[63] = 'rook-white-2';
+    squares[0] = 'rook-black'
+    squares[7] = 'rook-black';
+    squares[56] = 'rook-white';
+    squares[63] = 'rook-white';
 
     squares[1] = 'knight-black';
     squares[6] = 'knight-black';
