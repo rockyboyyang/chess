@@ -18,7 +18,7 @@ export const CreateGameboard = () => {
     // const [blackCasualties, setBlackCasualties] = useState([])
     
     const selectPieceToMove = (e) => {
-        if(gameStatus === 'CHECKMATE!!!') return;
+        if(gameStatus === 'CHECKMATE!') return;
 
         if(turn === 'white'){
             if(!selectedPiece) {
@@ -131,7 +131,7 @@ export const CreateGameboard = () => {
             if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
                 setGameStatus('CHECK!')
             } 
-            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('checkmate')
+            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
         }
     }
 

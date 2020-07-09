@@ -3,11 +3,12 @@ import { isChecked } from './checkLogic';
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
     const whiteArr = [48, 49, 50, 51, 52, 53, 54, 55]
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
-
     if (turn === 'white') {
         if (whiteArr.includes(currentSpot)) {
+            // console.log(currentSpot, destination, layout[currentSpot])
             if ((currentSpot - destination === 8 || currentSpot - destination === 16) && layout[currentSpot - 8] === null && layout[destination] === null) return true;
         } else {
+            // console.log(currentSpot, destination, layout[currentSpot])
             if (currentSpot - destination === 8 && layout[currentSpot - 8] === null) return true;
         }
         if (layout[destination] && destination === currentSpot - 7) return true

@@ -67,16 +67,55 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     }
 
     //Checks L's for knights
-    if(
-        layout[kingSpot - 17] === `knight-${color}` ||
-        layout[kingSpot - 15] === `knight-${color}` ||
-        layout[kingSpot - 10] === `knight-${color}` ||
-        layout[kingSpot - 6] === `knight-${color}` ||
-        layout[kingSpot + 17] === `knight-${color}` ||
-        layout[kingSpot + 15] === `knight-${color}` ||
-        layout[kingSpot + 10] === `knight-${color}` ||
-        layout[kingSpot + 6] === `knight-${color}`
-    ) return true;
+    const colOne = [0, 8, 16, 24, 32, 40, 48, 56]
+    const colTwo = [1, 9, 17, 25, 33, 41, 49, 57]
+    const colSeven = [6, 14, 22, 30, 38, 46, 54, 62]
+    const colEight = [7, 15, 23, 31, 39, 47, 55, 63]
+
+    if(colOne.includes(kingSpot)) {
+        if (
+            layout[kingSpot - 15] === `knight-${color}` ||
+            layout[kingSpot - 6] === `knight-${color}` ||
+            layout[kingSpot + 17] === `knight-${color}` ||
+            layout[kingSpot + 10] === `knight-${color}` 
+        ) return true;
+    } else if (colTwo.includes(kingSpot)) {
+        if (
+            layout[kingSpot - 17] === `knight-${color}` ||
+            layout[kingSpot - 15] === `knight-${color}` ||
+            layout[kingSpot - 6] === `knight-${color}` ||
+            layout[kingSpot + 17] === `knight-${color}` ||
+            layout[kingSpot + 15] === `knight-${color}` ||
+            layout[kingSpot + 10] === `knight-${color}`
+        ) return true
+    } else if (colSeven.includes(kingSpot)) {
+        if (
+            layout[kingSpot - 17] === `knight-${color}` ||
+            layout[kingSpot - 15] === `knight-${color}` ||
+            layout[kingSpot - 10] === `knight-${color}` ||
+            layout[kingSpot + 17] === `knight-${color}` ||
+            layout[kingSpot + 15] === `knight-${color}` ||
+            layout[kingSpot + 6] === `knight-${color}`
+        ) return true
+    } else if (colEight.includes(kingSpot)) {
+        if (
+            layout[kingSpot - 17] === `knight-${color}` ||
+            layout[kingSpot - 10] === `knight-${color}` ||
+            layout[kingSpot + 15] === `knight-${color}` ||
+            layout[kingSpot + 6] === `knight-${color}`
+        ) return true
+    } else {
+        if(
+            layout[kingSpot - 17] === `knight-${color}` ||
+            layout[kingSpot - 15] === `knight-${color}` ||
+            layout[kingSpot - 10] === `knight-${color}` ||
+            layout[kingSpot - 6] === `knight-${color}` ||
+            layout[kingSpot + 17] === `knight-${color}` ||
+            layout[kingSpot + 15] === `knight-${color}` ||
+            layout[kingSpot + 10] === `knight-${color}` ||
+            layout[kingSpot + 6] === `knight-${color}`
+        ) return true;
+    }
     
     const upLeft = kingSpot - 9;
     const upRight = kingSpot - 7;
@@ -87,35 +126,38 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     // console.log(checkedSquaresSeven, checkedSquaresNine, kingSquare)
     const leftSide = [0, 8, 16, 24, 32, 40, 48, 56]
     const rightSide = [7, 15, 23, 31, 39, 47, 55, 63]
-
-    if(leftSide.includes(kingSpot)) {
-        if(kingId === 'king-white') {
-            if (layout[upRight] === `pawn-black`) {
-                return true;
+    
+    if(kingId !== null) {
+        console.log(kingId)
+        if(leftSide.includes(kingSpot)) {
+            if(kingId.includes('white')) {
+                if (layout[upRight] === `pawn-black`) {
+                    return true;
+                }
+            } else if(kingId.includes('black')) {
+                if (layout[downRight] === `pawn-white`) {
+                    return true;
+                }
             }
-        } else if(kingId === 'king-black') {
-            if (layout[downRight] === `pawn-white`) {
-                return true;
+        } else if (rightSide.includes(kingSpot)) {
+            if (kingId.includes('king-white')) {
+                if (layout[upLeft] === `pawn-black`) {
+                    return true;
+                }
+            } else if (kingId.includes('king-black')) {
+                if (layout[downLeft] === `pawn-white`) {
+                    return true;
+                }
             }
-        }
-    } else if (rightSide.includes(kingSpot)) {
-        if (kingId === 'king-white') {
-            if (layout[upLeft] === `pawn-black`) {
-                return true;
-            }
-        } else if (kingId === 'king-black') {
-            if (layout[downLeft] === `pawn-white`) {
-                return true;
-            }
-        }
-    } else {
-        if(kingId === 'king-white') {
-            if (layout[upLeft] === `pawn-black` || layout[upRight] === `pawn-black`) {
-                return true;
-            }
-        } else if(kingId === 'king-black') {
-            if (layout[downRight] === `pawn-white` || layout[downLeft] === `pawn-white`) {
-                return true;
+        } else {
+            if(kingId.includes('white')) {
+                if (layout[upLeft] === `pawn-black` || layout[upRight] === `pawn-black`) {
+                    return true;
+                }
+            } else if(kingId.includes('black')) {
+                if (layout[downRight] === `pawn-white` || layout[downLeft] === `pawn-white`) {
+                    return true;
+                }
             }
         }
     }
@@ -171,8 +213,20 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         //     isChecked(kingSpot, color, layout, kingSquare, kingId) &&
         //     !pawnMoveLogic(currentSpot, destination, turn, layout)
         // )
-        // if(pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor)) return false;
-        console.log(gapArray)
+
+        if(color === 'white') {
+            if (gapArray[i] - 16 >= 0) {
+                if (pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor, layout) && gapArray[i] - 16 <= 0) return false;
+            }
+            if (pawnMoveLogic(gapArray[i] - 8, gapArray[i], opponentColor, layout)) return false;
+        } else {
+            if (gapArray[i] + 16 <= 63){
+                if (pawnMoveLogic(gapArray[i] + 16, gapArray[i], opponentColor, layout)) return false;
+            }
+            if (pawnMoveLogic(gapArray[i] + 8, gapArray[i], opponentColor, layout)) return false;
+        }
+        
+        // checks if a gap spot is in check
         if(isChecked(gapArray[i], opponentColor, layout, gapSquareColor, null)) return false;
         // if(knightMoveLogic(gapArray[i] - 15, gapArray[i])) return false;
         // if(knightMoveLogic(gapArray[i] - 17, gapArray[i])) return false;
@@ -188,21 +242,30 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         console.log('FALSE')
         return false;
     }
+
+    let destDiv = document.querySelector(`.square-${destination}`)
+    let destSquareColor = destDiv.className.split(' ')[1]
+    // sees if the opposing piece that checks your king can be captured from opposing piece
+    console.log(destDiv, opponentColor, destDiv.id)
+    if (isChecked(destination, opponentColor, layout, destSquareColor, destDiv.id)) {
+        console.log('FALSE')
+        return false;
+    }
     
     for(let i = -9; i <= 9; i++) {
         let noIncludes = [-6, -5, -4, -3, -2, 0, 2, 3, 4, 5, 6]
         let newDest = kingSpot + i;
         if((newDest < 0 || newDest > 63)|| noIncludes.includes(i)) continue;
         if(layout[newDest] !== null) {
-            console.log('newDest', layout[newDest], newDest)
+            // console.log('newDest', layout[newDest], newDest)
             if (layout[newDest].includes(`${opponentColor}`)) continue;
         }
-        console.log(layout[newDest], color, opponentColor)
+        // console.log(layout[newDest], color, opponentColor)
         let destDiv = document.querySelector(`.square-${newDest}`)
         let newDestSquareColor = destDiv.className.split(' ')[1]
         // if(destDiv.id.includes(`${opponentColor}`)) return false;
         if (kingMoveLogic(kingSpot, newDest, layout, color, newDestSquareColor, kingId)) {
-            console.log(kingSpot, newDest, color, newDestSquareColor, kingId)
+            // console.log(kingSpot, newDest, color, newDestSquareColor, kingId)
             return false;
         }
     }

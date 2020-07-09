@@ -26,6 +26,5 @@ export default function readyUpChessBoard() {
     squares[59] = 'queen-white';
     squares[60] = 'king-white';
 
-
     return squares;
 }
