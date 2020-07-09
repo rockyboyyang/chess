@@ -1,7 +1,6 @@
 import { isChecked } from './checkLogic';
 
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
-
     const whiteArr = [48, 49, 50, 51, 52, 53, 54, 55]
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
 

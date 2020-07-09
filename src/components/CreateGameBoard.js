@@ -2,7 +2,7 @@ import React, { useState, } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
 import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../gameLogic/moveLogic'
-import { isChecked } from '../gameLogic/checkLogic';
+import { isChecked, isCheckmate } from '../gameLogic/checkLogic';
 
 export const CreateGameboard = () => {
     const squares = readyUpChessBoard();
@@ -13,12 +13,12 @@ export const CreateGameboard = () => {
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
     const [turn, changeTurn] = useState('white')
-    const [check, setCheck] = useState(false)
     const [gameStatus, setGameStatus] = useState('')
     // const [whiteCasualties, setWhiteCasualties] = useState([])
     // const [blackCasualties, setBlackCasualties] = useState([])
-
+    
     const selectPieceToMove = (e) => {
+        if(gameStatus === 'checkmate') return;
         
         if(turn === 'white'){
             if(!selectedPiece) {
@@ -128,9 +128,10 @@ export const CreateGameboard = () => {
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
             if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
+                setGameStatus('check')
                 console.log('CHECK!')
-                setCheck('Check!')
             } 
+            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('checkmate')
         }
     }
 
