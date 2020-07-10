@@ -71,7 +71,7 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
     }
 
     if (!isChecked(kingSpot, color, layout, kingSquare, kingId)) {
-        console.log('FALSE')
+        // console.log('FALSE')
         return false;
     }
 
@@ -79,9 +79,9 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
     let destSquareColor = destDiv.className.split(' ')[1]
 
     // sees if the opposing piece that checks your king can be captured from opposing piece
-    console.log(destDiv, opponentColor, destDiv.id)
+    // console.log(destDiv, opponentColor, destDiv.id)
     if (isChecked(destination, opponentColor, layout, destSquareColor, destDiv.id)) {
-        console.log('FALSE')
+        // console.log('FALSE')
         return false;
     }
 

@@ -128,7 +128,7 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     const rightSide = [7, 15, 23, 31, 39, 47, 55, 63]
     
     if(kingId !== null) {
-        console.log(kingId)
+        // console.log(kingId)
         if(leftSide.includes(kingSpot)) {
             if(kingId.includes('white')) {
                 if (layout[upRight] === `pawn-black`) {

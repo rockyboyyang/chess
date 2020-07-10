@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import readyUpChessBoard from '../assets/squaresArray'
 import Square from './Square';
 import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../gameLogic/moveLogic'
@@ -7,10 +7,8 @@ import { isCheckmate } from '../gameLogic/isCheckmateLogic'
 import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
-    const { gameStatus, setGameStatus, turn, changeTurn } = useContext(GameBoardContext)
-    const squares = readyUpChessBoard();
+    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, layout, setLayout, squares, lastDest, setLastDest } = useContext(GameBoardContext)
     const board = [];
-    const [layout, setLayout] = useState(squares)
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
     const [blackKingMove, setBlackKingMove] = useState(false)
@@ -19,10 +17,8 @@ export const CreateGameboard = () => {
     const [whiteRook2Move, setWhiteRook2Move] = useState(false)
     const [blackRook1Move, setBlackRook1Move] = useState(false)
     const [blackRook2Move, setBlackRook2Move] = useState(false)
-    // const [turn, changeTurn] = useState('white')
-    // const [gameStatus, setGameStatus] = useState('')
-    // const [whiteCasualties, setWhiteCasualties] = useState([])
-    // const [blackCasualties, setBlackCasualties] = useState([])
+    const [whiteCasualties, setWhiteCasualties] = useState([])
+    const [blackCasualties, setBlackCasualties] = useState([])
     const ifMoved = {
         blackKingMove,
         whiteKingMove,
@@ -32,6 +28,13 @@ export const CreateGameboard = () => {
         blackRook2Move,
     }
     
+    // function pausecomp(millis) {
+    //     var date = new Date();
+    //     var curDate = null;
+
+    //     do { curDate = new Date(); }
+    //     while (curDate - date < millis);
+    // }
 
     const selectPieceToMove = (e) => {
         if(gameStatus === 'CHECKMATE!') return;
@@ -40,6 +43,7 @@ export const CreateGameboard = () => {
             if(!selectedPiece) {
                 if(e.target.id === 'undefined') return
                 if(!e.target.id.includes(`${turn}`)) {
+                    setGameStatus("That's not your piece!")
                     return
                 }
                 setSelectedPiece(e.target.id)
@@ -49,6 +53,7 @@ export const CreateGameboard = () => {
             if (!selectedPiece) {
                 if (e.target.id === 'undefined') return
                 if (!e.target.id.includes(`${turn}`)) {
+                    setGameStatus("That's not your piece!")
                     return
                 }
                 setSelectedPiece(e.target.id)
@@ -65,6 +70,7 @@ export const CreateGameboard = () => {
             // check for valid moves
             const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
             const destination = Number(e.target.className.split(' ')[0].slice(7))
+            // setLastDest(destination)
             const currentSquareColor = previousSelected.split(' ')[1]
             const destSquareColor = e.target.className.split(' ')[1]
             let opponentColor = turn === 'white' ? 'black' : 'white';
@@ -164,6 +170,12 @@ export const CreateGameboard = () => {
                 turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
             }
 
+            if(e.target.id !== 'undefined') {
+               const tempCasualtyArr = turn === 'white' ? blackCasualties : whiteCasualties
+               tempCasualtyArr.push(e.target.id)
+               turn === 'white' ? setBlackCasualties(tempCasualtyArr) : setWhiteCasualties(tempCasualtyArr)
+            }
+
             e.target.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
@@ -177,23 +189,47 @@ export const CreateGameboard = () => {
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
             if (gameStatus) setGameStatus('PLAYING')
+            // checks for promotion 
+            // document.querySelector(`.square-${destination}`).id = 'queen-white'
+            // document.querySelector(`.square-${destination}`).id = 'queen-white'
             
-            if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
-                setGameStatus('CHECK!')
-            } 
-
-            // checks if either rook moved
-            if (layout[0] === null) {
-                setBlackRook1Move(true)
-            } else if (layout[7] === null) {
-                setBlackRook2Move(true)
-            } else if (layout[56] === null) {
-                setWhiteRook1Move(true)
-            } else if (layout[63] === null) {
-                setWhiteRook2Move(true)
+            const promoArr = [0, 1, 2, 3, 4, 5, 6, 7, 56, 57, 58, 59, 60, 61, 62, 63]
+            console.log(promoArr.includes(destination))
+            
+            if (e.target.id.includes('pawn') && promoArr.includes(destination)) {
+                document.querySelector('.modal').style.display = 'block'
+                // while(!promotionPiece) {
+                //     console.log('yeah')
+                // }
+                // pausecomp(5000)
+                setTimeout(() => {
+                    console.log(promotionPiece)
+                    const tempArr = layout
+                    tempArr[destination] = 'queen-white'
+                    setLayout(tempArr)
+                    if (isChecked(kingSpot, turn, layout, kingSquare, king.id)) {
+                        setGameStatus('CHECK!')
+                    } 
+                    if (isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
+                }, 3000)
+            } else {
+                if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
+                    setGameStatus('CHECK!')
+                } 
+    
+                // checks if either rook moved
+                if (layout[0] === null) {
+                    setBlackRook1Move(true)
+                } else if (layout[7] === null) {
+                    setBlackRook2Move(true)
+                } else if (layout[56] === null) {
+                    setWhiteRook1Move(true)
+                } else if (layout[63] === null) {
+                    setWhiteRook2Move(true)
+                }
+                // checks for checkmate
+                if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
             }
-
-            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
         } 
     }
 
