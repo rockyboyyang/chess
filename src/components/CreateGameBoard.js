@@ -7,7 +7,7 @@ import { isCheckmate } from '../gameLogic/isCheckmateLogic'
 import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
-    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, layout, setLayout, squares, lastDest, setLastDest } = useContext(GameBoardContext)
+    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, layout, setLayout, squares, lastDest, setLastDest, setPause, setPromotion } = useContext(GameBoardContext)
     const board = [];
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
@@ -34,7 +34,16 @@ export const CreateGameboard = () => {
 
     //     do { curDate = new Date(); }
     //     while (curDate - date < millis);
-    // }
+    // }   
+    // useEffect(() => {
+        if (promotionPiece) {
+            console.log(promotionPiece, 'This is promo ppiece')
+            const tempArr = layout
+            tempArr[lastDest] = promotionPiece
+            setLayout(tempArr)
+            setPromotion('')
+        }
+    // }, [promotionPiece, layout, lastDest, setLayout])
 
     const selectPieceToMove = (e) => {
         if(gameStatus === 'CHECKMATE!') return;
@@ -70,7 +79,7 @@ export const CreateGameboard = () => {
             // check for valid moves
             const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
             const destination = Number(e.target.className.split(' ')[0].slice(7))
-            // setLastDest(destination)
+            setLastDest(destination)
             const currentSquareColor = previousSelected.split(' ')[1]
             const destSquareColor = e.target.className.split(' ')[1]
             let opponentColor = turn === 'white' ? 'black' : 'white';
@@ -130,13 +139,13 @@ export const CreateGameboard = () => {
             // putting your king in check
             if(!selectedPiece.includes('king')){
                 tempArr[destination] = selectedPiece
-                tempArr[currentSpot] = null;
+                tempArr[currentSpot] = 'null';
                 let king = turn === 'white' ? document.querySelector(`#king-white`): document.querySelector(`#king-black`)
                 let kingSpot = Number(king.className.split(' ')[0].slice(7))
                 let kingSquare = king.className.split(' ')[1]
                 if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
                     setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
-                    tempArr[destination] = null
+                    tempArr[destination] = 'null'
                     tempArr[currentSpot] = selectedPiece;
                     setSelectedPiece('')
                     return;
@@ -162,10 +171,10 @@ export const CreateGameboard = () => {
                 }
                 if(currentSpot > destination) {
                     layout[currentSpot - 1] = layout[currentSpot - 4]
-                    layout[currentSpot - 4] = null;
+                    layout[currentSpot - 4] = 'null';
                 } else if (currentSpot < destination) {
                     layout[currentSpot + 1] = layout[currentSpot + 3]
-                    layout[currentSpot + 3] = null;
+                    layout[currentSpot + 3] = 'null';
                 }
                 turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
             }
@@ -182,7 +191,7 @@ export const CreateGameboard = () => {
             if (turn === 'white') changeTurn('black')
             if (turn === 'black') changeTurn('white')
             tempArr[destination] = e.target.id
-            tempArr[currentSpot] = null;
+            tempArr[currentSpot] = 'null';
             setLayout(tempArr)
             // king grabs the opposing king
             let king = turn === 'white' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
@@ -198,73 +207,73 @@ export const CreateGameboard = () => {
             
             if (e.target.id.includes('pawn') && promoArr.includes(destination)) {
                 document.querySelector('.modal').style.display = 'block'
+                setPause(true)
                 // while(!promotionPiece) {
                 //     console.log('yeah')
                 // }
                 // pausecomp(5000)
-                setTimeout(() => {
-                    console.log(promotionPiece)
+                if(promotionPiece) {
+                    console.log(promotionPiece, 'This is promo ppiece')
                     const tempArr = layout
-                    tempArr[destination] = 'queen-white'
+                    tempArr[lastDest] = promotionPiece
                     setLayout(tempArr)
-                    if (isChecked(kingSpot, turn, layout, kingSquare, king.id)) {
-                        setGameStatus('CHECK!')
-                    } 
-                    if (isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
-                }, 3000)
-            } else {
-                if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
-                    setGameStatus('CHECK!')
-                } 
-    
-                // checks if either rook moved
-                if (layout[0] === null) {
-                    setBlackRook1Move(true)
-                } else if (layout[7] === null) {
-                    setBlackRook2Move(true)
-                } else if (layout[56] === null) {
-                    setWhiteRook1Move(true)
-                } else if (layout[63] === null) {
-                    setWhiteRook2Move(true)
+                } else {
+                    console.log('no promo')
                 }
-                // checks for checkmate
-                if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
             }
+            if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
+                setGameStatus('CHECK!')
+            } 
+
+            // checks if either rook moved
+            if (layout[0] === 'null') {
+                setBlackRook1Move(true)
+            } else if (layout[7] === 'null') {
+                setBlackRook2Move(true)
+            } else if (layout[56] === 'null') {
+                setWhiteRook1Move(true)
+            } else if (layout[63] === 'null') {
+                setWhiteRook2Move(true)
+            }
+            // checks for checkmate
+            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
+            
         } 
     }
 
     for(let i = 0; i < 64; i++) {
         let className;
+        if(layout[i] === undefined) console.log(layout)
         if((i >= 0 && i <= 7) || (i >= 16 && i <= 23) || (i >= 32 && i <= 39) || (i >= 48 && i <= 55)){
             if(i % 2 === 0) {
                 className = `square-${i} white-square`
-                if(squares[i] !== null){
+                if(layout[i] !== 'null'){
                     board.push(<Square key={i} props={ {id: layout[i], selectPieceToMove, className} }></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: 'null', selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} black-square`
-                if (squares[i] !== null) {
+                if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: 'null', selectPieceToMove, className }}></Square>)
                 }
             }
         } else {
             if (i % 2 === 0) {
                 className = `square-${i} black-square`
-                if (squares[i] !== null) {
+                if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: 'null', selectPieceToMove, className }}></Square>)
                 }
             } else {
                 className = `square-${i} white-square`
-                if (squares[i] !== null) {
+                if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
-                    board.push(<Square key={i} props={{ selectPieceToMove, className }}></Square>)
+                    board.push(<Square key={i} props={{ id: 'null',selectPieceToMove, className }}></Square>)
                 }
             }
         }

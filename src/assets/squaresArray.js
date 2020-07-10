@@ -1,5 +1,5 @@
 export default function readyUpChessBoard() {
-    const squares = Array(64).fill(null);
+    const squares = Array(64).fill('null');
 
     for (let i = 8; i < 16; i++) {
         squares[i] ='pawn-black';

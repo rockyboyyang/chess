@@ -5,7 +5,7 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     // console.log(kingId)
     function queenRookAndBishopLoop(queen, rookOrBishop, i) {
         // if(layout[i] === kingId)
-        if (layout[i] !== null && (layout[i] !== `${queen}-${color}` && layout[i] !== `${rookOrBishop}-${color}`)) {
+        if (layout[i] !== 'null' && (layout[i] !== `${queen}-${color}` && layout[i] !== `${rookOrBishop}-${color}`)) {
             // console.log('break')
             return false
         } else if (layout[i] === `${queen}-${color}` || layout[i] === `${rookOrBishop}-${color}`) {

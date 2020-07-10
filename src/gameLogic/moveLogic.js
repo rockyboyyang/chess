@@ -1,8 +1,8 @@
 import { isChecked } from './checkLogic';
 
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
-    if(layout[currentSpot] === null) return false;
-    if(layout[currentSpot] !== null && currentSpot >= 0 && currentSpot <= 63) {
+    if(layout[currentSpot] === 'null') return false;
+    if(layout[currentSpot] !== 'null' && currentSpot >= 0 && currentSpot <= 63) {
 
         if(!layout[currentSpot].includes('pawn')) return false;
     }
@@ -10,9 +10,9 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
     const blackArr = [8, 9, 10, 11, 12, 13, 14, 15]
     if (turn === 'white') {
         if (whiteArr.includes(currentSpot)) {
-            if ((currentSpot - destination === 8 || currentSpot - destination === 16) && layout[currentSpot - 8] === null && layout[destination] === null) return true;
+            if ((currentSpot - destination === 8 || currentSpot - destination === 16) && layout[currentSpot - 8] === 'null' && layout[destination] === 'null') return true;
         } else {
-            if (currentSpot - destination === 8 && layout[currentSpot - 8] === null) return true;
+            if (currentSpot - destination === 8 && layout[currentSpot - 8] === 'null') return true;
         }
         if (layout[destination] && destination === currentSpot - 7) return true
         if (layout[destination] && destination === currentSpot - 9) return true
@@ -20,9 +20,9 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         return false;
     } else {
         if (blackArr.includes(currentSpot)) {
-            if ((currentSpot + 8 === destination || currentSpot + 16 === destination) && layout[currentSpot + 8] === null && layout[destination] === null) return true;
+            if ((currentSpot + 8 === destination || currentSpot + 16 === destination) && layout[currentSpot + 8] === 'null' && layout[destination] === 'null') return true;
         } else {
-            if (currentSpot + 8 === destination && layout[currentSpot + 8] === null) return true;
+            if (currentSpot + 8 === destination && layout[currentSpot + 8] === 'null') return true;
         }
         if (layout[destination] && destination === currentSpot + 7) return true
         if (layout[destination] && destination === currentSpot + 9) return true
@@ -97,14 +97,14 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
         if (currentSpot > destination) {
             for (let i = currentSpot - increment; i >= currentSpot - modulo; i--) {
                 blockSpace = i;
-                if (layout[i]) break;
+                if (layout[i] !== 'null') break;
             }
             if (blockSpace > destination) return false;
 
         } else {
             for (let i = currentSpot + increment; i < currentSpot + difference; i++) {
                 blockSpace = i;
-                if (layout[i]) break;
+                if (layout[i] !== 'null') break;
             }
             if (blockSpace < destination) return false;
         }
@@ -112,13 +112,13 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
         if (currentSpot > destination) {
             for (let i = currentSpot - increment; i >= destination; i -= increment) {
                 blockSpace = i;
-                if (layout[i]) break;
+                if (layout[i] !== 'null') break;
             }
             if (blockSpace > destination) return false
         } else {
             for (let i = currentSpot + increment; i <= destination; i += increment) {
                 blockSpace = i;
-                if (layout[i]) break;
+                if (layout[i] !== 'null') break;
             }
             if (blockSpace < destination) return false
         }
@@ -186,32 +186,32 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
             kingId === 'king-white' && 
             whiteRook2Move === false && 
             whiteKingMove === false &&
-            layout[currentSpot + 1] === null &&
-            layout[currentSpot + 2] === null &&
+            layout[currentSpot + 1] === 'null' &&
+            layout[currentSpot + 2] === 'null' &&
             currentSpot + 2 === destination
         )  return true
         else if (
             kingId === 'king-white' &&
             whiteRook1Move === false &&
             whiteKingMove === false &&
-            layout[currentSpot - 1] === null &&
-            layout[currentSpot - 2] === null &&
+            layout[currentSpot - 1] === 'null' &&
+            layout[currentSpot - 2] === 'null' &&
             currentSpot - 2 === destination
         ) return true
         else if (
             kingId === 'king-black' &&
             blackRook1Move === false &&
             blackKingMove === false &&
-            layout[currentSpot - 1] === null &&
-            layout[currentSpot - 2] === null &&
+            layout[currentSpot - 1] === 'null' &&
+            layout[currentSpot - 2] === 'null' &&
             currentSpot - 2 === destination
         ) return true
         else if (
             kingId === 'king-black' &&
             blackRook2Move === false &&
             blackKingMove === false &&
-            layout[currentSpot + 1] === null &&
-            layout[currentSpot + 2] === null &&
+            layout[currentSpot + 1] === 'null' &&
+            layout[currentSpot + 2] === 'null' &&
             currentSpot + 2 === destination
         ) return true
     }
