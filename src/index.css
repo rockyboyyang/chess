@@ -15,10 +15,18 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     border: 1px solid black;
+    background-color: rgb(240, 217, 181);
     /* transform: rotate(180deg); ; */
 }
 
-.game-board > div {
+/* .game-board > div {
+    /* transform: rotate(180deg); ; */
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+/* } */
+
+.squares {
     /* transform: rotate(180deg); ; */
     display: flex;
     flex-direction: column;

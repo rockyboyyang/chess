@@ -7,7 +7,8 @@ import { isCheckmate } from '../gameLogic/isCheckmateLogic'
 import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
-    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, layout, setLayout, squares, lastDest, setLastDest, setPause, setPromotion } = useContext(GameBoardContext)
+    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, setLayout, squares, lastDest, setLastDest, setPause, setPromotion, setGameBoard, sendGameboard, gameBoard, playerName } = useContext(GameBoardContext)
+    const layout = gameBoard;
     const board = [];
     const [selectedPiece, setSelectedPiece] = useState('')
     const [previousSelected, setPreviousSelected] = useState('')
@@ -27,7 +28,11 @@ export const CreateGameboard = () => {
         blackRook1Move,
         blackRook2Move,
     }
-    
+    const ownColor = turn === 'white' ? 'white' : 'black'
+    const opponentColor = turn === 'white' ? 'black' : 'white'
+    // console.log('CREATED', layout.slice(48, 56).includes('null'))
+
+
     // function pausecomp(millis) {
     //     var date = new Date();
     //     var curDate = null;
@@ -36,22 +41,34 @@ export const CreateGameboard = () => {
     //     while (curDate - date < millis);
     // }   
     // useEffect(() => {
-        if (promotionPiece) {
-            console.log(promotionPiece, 'This is promo ppiece')
-            const tempArr = layout
-            tempArr[lastDest] = promotionPiece
-            setLayout(tempArr)
-            setPromotion('')
+    if (promotionPiece) {
+        console.log(promotionPiece, 'This is promo ppiece')
+        const tempArr = layout
+        tempArr[lastDest] = promotionPiece
+        setLayout(tempArr)
+        setPromotion('')
+    }
+
+    if (playerName === 'black') {
+        if(document.querySelector('.squares')){
+            document.querySelector('.game-board').style.transform = 'rotate(180deg)'
+            let allSquares = document.querySelectorAll('.squares')
+            if(allSquares) {
+                for(const square of allSquares) {
+                    square.style.transform = 'rotate(180deg)'
+                }
+            }
         }
-    // }, [promotionPiece, layout, lastDest, setLayout])
+    }
 
     const selectPieceToMove = (e) => {
+        if(playerName !== turn) return
         if(gameStatus === 'CHECKMATE!') return;
         setGameStatus('PLAYING')
         if(turn === 'white'){
             if(!selectedPiece) {
                 if(e.target.id === 'undefined') return
-                if(!e.target.id.includes(`${turn}`)) {
+                if(!e.target.id.includes(ownColor)) {
                     setGameStatus("That's not your piece!")
                     return
                 }
@@ -61,7 +78,7 @@ export const CreateGameboard = () => {
         } else {
             if (!selectedPiece) {
                 if (e.target.id === 'undefined') return
-                if (!e.target.id.includes(`${turn}`)) {
+                if (!e.target.id.includes(ownColor)) {
                     setGameStatus("That's not your piece!")
                     return
                 }
@@ -72,7 +89,7 @@ export const CreateGameboard = () => {
         
         if (selectedPiece) {
             // returns if clicks on own piece
-            if (e.target.id.includes(turn)) {
+            if (e.target.id.includes(ownColor)) {
                 setSelectedPiece('')
                 return
             }
@@ -82,10 +99,10 @@ export const CreateGameboard = () => {
             setLastDest(destination)
             const currentSquareColor = previousSelected.split(' ')[1]
             const destSquareColor = e.target.className.split(' ')[1]
-            let opponentColor = turn === 'white' ? 'black' : 'white';
+            // let opponentColor = turn === 'white' ? 'black' : 'white';
 
             if(selectedPiece.includes('pawn')) {
-                if (!pawnMoveLogic(currentSpot, destination, turn, layout)) {
+                if (!pawnMoveLogic(currentSpot, destination, ownColor, layout)) {
                     setGameStatus('INVALID MOVE')
                     setSelectedPiece('')
                     return
@@ -140,7 +157,7 @@ export const CreateGameboard = () => {
             if(!selectedPiece.includes('king')){
                 tempArr[destination] = selectedPiece
                 tempArr[currentSpot] = 'null';
-                let king = turn === 'white' ? document.querySelector(`#king-white`): document.querySelector(`#king-black`)
+                let king = ownColor === 'white' ? document.querySelector(`#king-white`): document.querySelector(`#king-black`)
                 let kingSpot = Number(king.className.split(' ')[0].slice(7))
                 let kingSquare = king.className.split(' ')[1]
                 if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
@@ -154,7 +171,7 @@ export const CreateGameboard = () => {
 
             // checks castling
             if (selectedPiece.includes('king') && Math.abs(currentSpot - destination) === 2) {
-                let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
                 for(let i = - 2; i < 0; i ++) {
                     let coloredSquare = document.querySelector(`.square-${currentSpot - i}`).className.split(' ')[1]
                     if(isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
@@ -188,13 +205,16 @@ export const CreateGameboard = () => {
             e.target.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
-            if (turn === 'white') changeTurn('black')
-            if (turn === 'black') changeTurn('white')
+            // console.log(turn, 'before change cfb.js')
+            // if (turn === 'white') changeTurn('black')
+            // if (turn === 'black') changeTurn('white')
+            // console.log(turn, 'after change cfb.js')
             tempArr[destination] = e.target.id
             tempArr[currentSpot] = 'null';
+            console.log('tempArr',tempArr)
             setLayout(tempArr)
             // king grabs the opposing king
-            let king = turn === 'white' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
+            let king = opponentColor === 'black' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
             if (gameStatus) setGameStatus('PLAYING')
@@ -203,7 +223,7 @@ export const CreateGameboard = () => {
             // document.querySelector(`.square-${destination}`).id = 'queen-white'
             
             const promoArr = [0, 1, 2, 3, 4, 5, 6, 7, 56, 57, 58, 59, 60, 61, 62, 63]
-            console.log(promoArr.includes(destination))
+            // console.log(promoArr.includes(destination))
             
             if (e.target.id.includes('pawn') && promoArr.includes(destination)) {
                 document.querySelector('.modal').style.display = 'block'
@@ -236,24 +256,32 @@ export const CreateGameboard = () => {
                 setWhiteRook2Move(true)
             }
             // checks for checkmate
-            if(isCheckmate(kingSpot, turn, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
+            console.log(kingSpot, ownColor, opponentColor)
+            if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
+            // console.log(gameBoard, 'asas')
+            if(layout) {
+                // console.log(Object.keys(layout).length)
+                // setGameBoard(layout)
+                // console.log('piece moved in create', layout.slice(48, 56).includes('null'))
+                sendGameboard(layout);
+            }
             
         } 
     }
 
     for(let i = 0; i < 64; i++) {
         let className;
-        if(layout[i] === undefined) console.log(layout)
+        // if(layout[i] === undefined) console.log(layout)
         if((i >= 0 && i <= 7) || (i >= 16 && i <= 23) || (i >= 32 && i <= 39) || (i >= 48 && i <= 55)){
             if(i % 2 === 0) {
-                className = `square-${i} white-square`
+                className = `square-${i} white-square squares`
                 if(layout[i] !== 'null'){
                     board.push(<Square key={i} props={ {id: layout[i], selectPieceToMove, className} }></Square>)
                 } else {
                     board.push(<Square key={i} props={{ id: 'null', selectPieceToMove, className }}></Square>)
                 }
             } else {
-                className = `square-${i} black-square`
+                className = `square-${i} black-square squares`
                 if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
@@ -262,14 +290,14 @@ export const CreateGameboard = () => {
             }
         } else {
             if (i % 2 === 0) {
-                className = `square-${i} black-square`
+                className = `square-${i} black-square squares`
                 if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
                     board.push(<Square key={i} props={{ id: 'null', selectPieceToMove, className }}></Square>)
                 }
             } else {
-                className = `square-${i} white-square`
+                className = `square-${i} white-square squares`
                 if (layout[i] !== 'null') {
                     board.push(<Square key={i} props={{ id: layout[i], selectPieceToMove, className }}></Square>)
                 } else {
