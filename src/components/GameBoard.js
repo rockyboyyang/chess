@@ -4,8 +4,8 @@ import { GameBoardContext } from '../context/GameBoardContext'
 import Square from './Square';
 import readyUpChessBoard from '../assets/squaresArray'
 
-const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn}) => {
-    const [gameStatus, setGameStatus] = useState('PLAYING')
+const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus}) => {
+    // const [gameStatus, setGameStatus] = useState('PLAYING')
     const [promotionPiece, setPromotion] = useState('')
     const squares = readyUpChessBoard();
     const [layout, setLayout] = useState(gameBoard)

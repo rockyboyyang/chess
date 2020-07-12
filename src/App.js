@@ -9,6 +9,7 @@ import readyUpChessBoard from './assets/squaresArray'
 function App() {
   const [turn, changeTurn] = useState('white')
   // console.log(turn, 'll')
+  const [gameStatus, setGameStatus] = useState('PLAYING')
   const squares = readyUpChessBoard();
   const [playerName, setPlayerName] = useState('');
   const [match, setMatch] = useState(null)
@@ -40,6 +41,8 @@ function App() {
           setGameBoard(message.data.gameboard);
           if (message.newTurn === 'black') changeTurn('white')
           if (message.newTurn === 'white') changeTurn('black')
+          // console.log(message.currentStatus)
+          setGameStatus(message.currentStatus)
           break
         default:
           throw new Error(`Unknown message type: ${message.type}`)
@@ -84,15 +87,16 @@ function App() {
     setPlayerName(playerName)
   }
 
-  const sendGameboard = (layout, turn) => {
+  const sendGameboard = (layout, turn, gameStatus) => {
     // console.log(gameBoard)
-    webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn });
+    console.log(gameStatus)
+    webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn, gameStatus });
   };
 
   return (
     <BrowserRouter>
       {playerName ? (
-        <GameBoard playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn}/>
+        <GameBoard playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn} gameStatus={gameStatus} setGameStatus={setGameStatus}/>
       ) : (
         <Home updatePlayerName={updatePlayerName} />
       )}

@@ -47,18 +47,19 @@ export const CreateGameboard = () => {
         tempArr[lastDest] = promotionPiece
         setLayout(tempArr)
         setPromotion('')
-        let king = document.querySelector(`#king-black`)
-        console.log(king)
-        let kingSpot = Number(king.className.split(' ')[0].slice(7))
-        let kingSquare = king.className.split(' ')[1]
-        if (isChecked(kingSpot, opponentColor, layout, kingSquare, king.id)) {
-            setGameStatus('CHECK!')
-        } 
+        // let king = document.querySelector(`#king-black`)
+        // console.log(king)
+        // let kingSpot = Number(king.className.split(' ')[0].slice(7))
+        // let kingSquare = king.className.split(' ')[1]
+        // if (isChecked(kingSpot, opponentColor, layout, kingSquare, king.id)) {
+        //     setGameStatus('CHECK!')
+        // } 
         if (turn === 'white') sendGameboard(layout, 'black');
         if (turn === 'black') sendGameboard(layout, 'white');
 
     }
 
+    // rotates the board and pieces for black
     if (playerName === 'black') {
         if(document.querySelector('.squares')){
             document.querySelector('.game-board').style.transform = 'rotate(180deg)'
@@ -221,13 +222,13 @@ export const CreateGameboard = () => {
             // console.log(turn, 'after change cfb.js')
             tempArr[destination] = e.target.id
             tempArr[currentSpot] = 'null';
-            console.log('tempArr',tempArr)
+            // console.log('tempArr',tempArr)
             setLayout(tempArr)
             // king grabs the opposing king
             let king = opponentColor === 'black' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
-            if (gameStatus) setGameStatus('PLAYING')
+            // if (gameStatus) setGameStatus('PLAYING')
             // checks for promotion 
             // document.querySelector(`.square-${destination}`).id = 'queen-white'
             // document.querySelector(`.square-${destination}`).id = 'queen-white'
@@ -249,10 +250,7 @@ export const CreateGameboard = () => {
                 } 
             }
 
-            if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
-                setGameStatus('CHECK!')
-            } 
-
+            
             // checks if either rook moved
             if (layout[0] === 'null') {
                 setBlackRook1Move(true)
@@ -264,16 +262,27 @@ export const CreateGameboard = () => {
                 setWhiteRook2Move(true)
             }
             // checks for checkmate
-            console.log(kingSpot, ownColor, opponentColor)
-            if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) setGameStatus('CHECKMATE!')
-            // console.log(gameBoard, 'asas')
-            if(layout) {
-                // console.log(Object.keys(layout).length)
-                // setGameBoard(layout)
-                console.log(layout)
-                // console.log('piece moved in create', layout.slice(48, 56).includes('null'))
-                sendGameboard(layout, turn);
+            // console.log(kingSpot, ownColor, opponentColor)
+            if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) {
+                setGameStatus('CHECKMATE!')
+                sendGameboard(layout, turn, 'CHECKMATE!');
+                return
             }
+            if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
+                setGameStatus('CHECK!')
+                // console.log(gameStatus)
+                sendGameboard(layout, turn, 'CHECK!');
+            } else if(layout) {
+                sendGameboard(layout, turn, gameStatus);
+            }
+            // console.log(gameBoard, 'asas')
+            // if(layout) {
+            //     // console.log(Object.keys(layout).length)
+            //     // setGameBoard(layout)
+            //     // console.log(gameStatus)
+            //     // console.log('piece moved in create', layout.slice(48, 56).includes('null'))
+            //     sendGameboard(layout, turn, gameStatus);
+            // }
         } 
     }
 

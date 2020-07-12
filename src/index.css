@@ -2,9 +2,10 @@
 body {
     background-color: #3AAfa9;
     margin: 0;
+    height: 100vh;
 }
 #root {
-    max-height: inherit;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,8 +17,8 @@ body {
 }
 
 .game-board {
-    height: 500px;
-    width: 500px;
+    height: 700px;
+    width: 700px;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -53,84 +54,84 @@ body {
     background-image: url(./images/black-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 50px;
 }
 
 #rook-white {
     background-image: url(./images/white-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 50px;
 }
 
 #knight-black {
     background-image: url(./images/black-knight.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 50px;
 }
 
 #knight-white {
     background-image: url(./images/white-knight.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 50px;
 }
 
 #bishop-black {
     background-image: url(./images/black-bishop.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 28px;
+    background-size: 38px;
 }
 
 #bishop-white {
     background-image: url(./images/white-bishop.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 28px;
+    background-size: 38px;
 }
 
 #queen-black {
     background-image: url(./images/black-queen.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 27px;
+    background-size: 37px;
 }
 
 #queen-white {
     background-image: url(./images/white-queen.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 27px;
+    background-size: 37px;
 }
 
 #king-black {
     background-image: url(./images/black-king.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 25px;
+    background-size: 30px;
 }
 
 #king-white {
     background-image: url(./images/white-king.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 25px;
+    background-size: 30px;
 }
 
 #pawn-black {
     background-image: url(./images/black-pawn.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 45px;
 }
 
 #pawn-white {
     background-image: url(./images/white-pawn.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 35px;
+    background-size: 45px;
 }
 
 .white-square:hover,
@@ -182,6 +183,7 @@ body {
 }
 
 .body-container {
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -225,7 +227,8 @@ body {
 }
 
 footer {
-    height: 138px;
+    align-self: self-end;
+    height: 30%;
     width: 100%;
     background-color: #17252a;
     display: flex;
