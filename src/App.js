@@ -21,7 +21,7 @@ function App() {
       return;
     }
 
-    const ws = new WebSocket(process.env.REACT_APP_WS_URL);
+    const ws = new WebSocket('ws://secure-reaches-43217.herokuapp.com/');
 
 
     ws.onopen = () => {
