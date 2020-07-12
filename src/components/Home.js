@@ -34,19 +34,20 @@ const Home = ({ updatePlayerName }) => {
     };
 
     return (
-        <div id='home-page'>
-            <h1 id='home-header'>LET'S PLAY CHESS!</h1>
-            <h2 id='pick-color'>Pick Your Color</h2>
-            {/* <p>Please provide your player name and
-            click the "Play Game" button to start a game.</p>
-            <form onSubmit={onSubmit}>
-                <input type='text' value={playerName}
-                    onChange={onChange} />
-                <button>Play Game</button>
-            </form> */}
-            <button onClick={selectWhite}>WHITE</button>
-            <button onClick={selectBlack}>BLACK</button>
-        </div>
+        <>
+            <div className="body-container">
+                <h1 id='home-header'>CHESS</h1>
+                <div id='home-page'>
+                    <h2 id='pick-color'>Pick Your Color</h2>
+                    <div className="button" onClick={selectWhite}>WHITE</div>
+                    <div className="button" onClick={selectBlack}>BLACK</div>
+                </div>
+                <footer>
+                    <a className="fa fa-github-square" href='https://github.com/rockyboyyang'></a>
+                    <a className="fa fa-linkedin" href='https://www.linkedin.com/in/rocky-yang-8a6669b8/'></a>
+                </footer>
+            </div>
+        </>
     );
 }
 

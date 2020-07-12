@@ -1,21 +1,29 @@
 /* TODO Add site wide styles */
+body {
+    background-color: #3AAfa9;
+    margin: 0;
+}
 #root {
+    max-height: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 #game-status {
     position: absolute;
 }
+
 .game-board {
     height: 500px;
     width: 500px;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    border: 1px solid black;
-    background-color: rgb(240, 217, 181);
+    border: 20px solid #17252a;
+    border-radius: 25px;
+    background-color: #def2f1;
     /* transform: rotate(180deg); ; */
 }
 
@@ -34,11 +42,11 @@
 }
 
 .white-square {
-    background-color: rgb(240, 217, 181);
+    background-color: #def2f1;
 }
 
 .black-square {
-    background-color: rgb(181, 136, 99);
+    background-color: #2b7a78;
 }
 
 #rook-black{
@@ -127,7 +135,8 @@
 
 .white-square:hover,
 .black-square:hover {
-    border: 5px solid red;
+    background-color: rgba(255, 255, 97, 0.475);
+    transition: .25s;
 }
 
 .modal {
@@ -170,4 +179,77 @@
   align-items: center;
   border-bottom: 0.1px solid rgb(196, 196, 196);
   font-size: 24px;
+}
+
+.body-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#home-page {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    margin: 25px;
+    padding: 30px;
+    width: 45%;
+}
+
+#home-header {
+    margin: 0;
+    font-size: 95px;
+}
+#home-header,
+#pick-color {
+    color: #def2f1;
+    text-align: center;
+}
+
+.button {
+    background-color: #2b7a78;
+    color: #def2f1;
+    margin: 10px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.button:hover {
+    background-color: #5cdb95;
+    color: #17252a;
+    cursor: pointer;
+    transition: .2s;
+}
+
+footer {
+    height: 138px;
+    width: 100%;
+    background-color: #17252a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa {
+    font-size: 50px;
+    color: #def2f1;
+    text-decoration: none;
+    padding: 0px 10px;
+}
+
+.waiting {
+    color: #def2f1;
+    font-size: 50px;
+}
+
+nav {
+    background-color: #17252a;
+    color: #def2f1;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 25px;
 }

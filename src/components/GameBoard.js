@@ -55,14 +55,16 @@ const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, t
                             <div id={`bishop-${ownColor}`} className="black-square promotion" onClick={setBishopPromotion} />
                         </div>
                     </div>
-                    <h1 id="gameStatus">Game Status: {gameStatus}</h1>
-                    <h1 id="turn">Turn: {turn.toUpperCase()}</h1>
+                    <nav>
+                        <h1 id="gameStatus">Game Status: {gameStatus}</h1>
+                        <h1 id="turn">Turn: {turn.toUpperCase()}</h1>
+                    </nav>
                     <div className="game-board">
                         { pause ? null : <CreateGameboard />}
                     </div>
                 </>
             ) : (
-                <h3 >Waiting for game to start...</h3>
+                <h3 className='waiting'>Waiting for game to start...</h3>
             )}
         </GameBoardContext.Provider>
     )

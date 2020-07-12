@@ -47,6 +47,16 @@ export const CreateGameboard = () => {
         tempArr[lastDest] = promotionPiece
         setLayout(tempArr)
         setPromotion('')
+        let king = document.querySelector(`#king-black`)
+        console.log(king)
+        let kingSpot = Number(king.className.split(' ')[0].slice(7))
+        let kingSquare = king.className.split(' ')[1]
+        if (isChecked(kingSpot, opponentColor, layout, kingSquare, king.id)) {
+            setGameStatus('CHECK!')
+        } 
+        if (turn === 'white') sendGameboard(layout, 'black');
+        if (turn === 'black') sendGameboard(layout, 'white');
+
     }
 
     if (playerName === 'black') {
@@ -233,15 +243,13 @@ export const CreateGameboard = () => {
                 // }
                 // pausecomp(5000)
                 if(promotionPiece) {
-                    console.log(promotionPiece, 'This is promo ppiece')
                     const tempArr = layout
                     tempArr[lastDest] = promotionPiece
                     setLayout(tempArr)
-                } else {
-                    console.log('no promo')
-                }
+                } 
             }
-            if(isChecked(kingSpot, turn, layout, kingSquare, king.id)){
+
+            if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
                 setGameStatus('CHECK!')
             } 
 
@@ -262,10 +270,10 @@ export const CreateGameboard = () => {
             if(layout) {
                 // console.log(Object.keys(layout).length)
                 // setGameBoard(layout)
+                console.log(layout)
                 // console.log('piece moved in create', layout.slice(48, 56).includes('null'))
-                sendGameboard(layout);
+                sendGameboard(layout, turn);
             }
-            
         } 
     }
 

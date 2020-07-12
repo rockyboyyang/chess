@@ -84,7 +84,7 @@ function App() {
     setPlayerName(playerName)
   }
 
-  const sendGameboard = (layout) => {
+  const sendGameboard = (layout, turn) => {
     // console.log(gameBoard)
     webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn });
   };
