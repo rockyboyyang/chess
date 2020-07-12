@@ -14,8 +14,8 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         } else {
             if (currentSpot - destination === 8 && layout[currentSpot - 8] === 'null') return true;
         }
-        if (layout[destination] && destination === currentSpot - 7) return true
-        if (layout[destination] && destination === currentSpot - 9) return true
+        if (layout[destination] !== 'null' && destination === currentSpot - 7) return true
+        if (layout[destination] !== 'null' && destination === currentSpot - 9) return true
         console.log('INVALID MOVE')
         return false;
     } else {
@@ -24,8 +24,8 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         } else {
             if (currentSpot + 8 === destination && layout[currentSpot + 8] === 'null') return true;
         }
-        if (layout[destination] && destination === currentSpot + 7) return true
-        if (layout[destination] && destination === currentSpot + 9) return true
+        if (layout[destination] !== 'null' && destination === currentSpot + 7) return true
+        if (layout[destination] !== 'null' && destination === currentSpot + 9) return true
         console.log('INVALID MOVE')
         return false;
     }

@@ -1,27 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Login from './components/Login';
-import GuestMenu from './components/GuestMenu'
 import GameBoard from './components/GameBoard'
 import Home from './components/Home'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import readyUpChessBoard from './assets/squaresArray'
+import readyUpChessBoard from './squaresArray'
 
 function App() {
   const [turn, changeTurn] = useState('white')
-  // console.log(turn, 'll')
   const [gameStatus, setGameStatus] = useState('PLAYING')
   const squares = readyUpChessBoard();
   const [playerName, setPlayerName] = useState('');
   const [match, setMatch] = useState(null)
   const [gameBoard, setGameBoard] = useState(squares)
-  // console.log('App',gameBoard.slice(48, 56).includes('null'))
   const webSocket = useRef(null)
   useEffect(() => {
     if(!playerName) {
       return;
     }
 
-    const ws = new WebSocket('ws://secure-reaches-43217.herokuapp.com/');
+    const ws = new WebSocket(process.env.REACT_APP_WS_URL);
 
 
     ws.onopen = () => {
@@ -29,8 +25,6 @@ function App() {
     };
 
     ws.onmessage = e => {
-      // console.log( `Processing incoming message ${e.data}...`)
-
       const message = JSON.parse(e.data);
       switch(message.type) {
         case 'start-game':
@@ -41,7 +35,6 @@ function App() {
           setGameBoard(message.data.gameboard);
           if (message.newTurn === 'black') changeTurn('white')
           if (message.newTurn === 'white') changeTurn('black')
-          // console.log(message.currentStatus)
           setGameStatus(message.currentStatus)
           break
         default:
@@ -66,7 +59,7 @@ function App() {
         data,
       });
 
-      // console.log(`Sending message ${message}...`);
+      console.log(`Sending message ${message}...`);
 
       ws.send(message);
     };
@@ -88,7 +81,6 @@ function App() {
   }
 
   const sendGameboard = (layout, turn, gameStatus) => {
-    // console.log(gameBoard)
     console.log(gameStatus)
     webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn, gameStatus });
   };
@@ -100,10 +92,6 @@ function App() {
       ) : (
         <Home updatePlayerName={updatePlayerName} />
       )}
-        {/* {localStorage.Token ? (<Route path="/login"><Login /></Route>) : (<Route path="/guestMenu"><GuestMenu /></Route>)} */}
-        {/* <Route path="/login"><Login /></Route>
-        <Route path="/guestMenu"><GuestMenu /></Route> */}
-        {/* <Route path="/gameBoard"><GameBoard /></Route> */}
     </BrowserRouter>
   );
 }

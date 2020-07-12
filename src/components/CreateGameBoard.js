@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import readyUpChessBoard from '../assets/squaresArray'
+import readyUpChessBoard from '../squaresArray'
 import Square from './Square';
 import { pawnMoveLogic, knightMoveLogic, bishopMoveLogic, rookMoveLogic, queenMoveLogic, kingMoveLogic } from '../gameLogic/moveLogic'
 import { isChecked } from '../gameLogic/checkLogic';
@@ -30,17 +30,6 @@ export const CreateGameboard = () => {
     }
     const ownColor = turn === 'white' ? 'white' : 'black'
     const opponentColor = turn === 'white' ? 'black' : 'white'
-    // console.log('CREATED', layout.slice(48, 56).includes('null'))
-
-
-    // function pausecomp(millis) {
-    //     var date = new Date();
-    //     var curDate = null;
-
-    //     do { curDate = new Date(); }
-    //     while (curDate - date < millis);
-    // }   
-    // useEffect(() => {
     if (promotionPiece) {
         console.log(promotionPiece, 'This is promo ppiece')
         const tempArr = layout

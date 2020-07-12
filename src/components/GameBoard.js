@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CreateGameboard } from './CreateGameBoard'
 import { GameBoardContext } from '../context/GameBoardContext'
 import Square from './Square';
-import readyUpChessBoard from '../assets/squaresArray'
+import readyUpChessBoard from '../squaresArray'
 
 const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus}) => {
     // const [gameStatus, setGameStatus] = useState('PLAYING')
