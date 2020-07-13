@@ -11,20 +11,29 @@ An application for the game Chess.  Chess is a two-player strategy board game th
     - CSS
     - Websockets
     - HTML
-    - Javascript
+    - JavaScript
     
  - Back-end development
-<!-- TBD -->
- 
+    - Express
+    - Morgan
+    - Websockets
+    - JavaScript
+
  # Features
- - Login Page
- - Game menu (if using a user account and not guest account)
- - Use websockets so two people can play and chat at the same time
+ - Landing Page where two players can choose their color
+ - Use websockets so two people can play at the same time
  - Having each of the individual pieces move how they should
- - Be able to implement unique moves (Castling,  Promotions, and En Passant)
+ - Be able to implement unique moves (Castling and Promotions)
+ - Able to play a full game of Chess
 
 # Technical Challenges
-<!-- TBD -->
+- Getting all the game pieces to move accordingly
+- Using websockets to connect two UI's
+- Getting all the game logic to correspond correctly
 
 # Future Implementations
-<!-- TBD -->
+- En Pasantes
+- Using databases to store users game stats
+- Able to have more than one match happening at the same time
+- Have a chat box next to the gameboard so the two players can chat
+- Having sound and animations for the game pieces

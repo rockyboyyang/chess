@@ -215,13 +215,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 25px;
+}
+
+.button:last-child {
+    color: #17252a;
 }
 
 .button:hover {
     background-color: #5cdb95;
-    color: #17252a;
     cursor: pointer;
     transition: .2s;
 }
@@ -256,3 +259,7 @@ nav {
     justify-content: space-evenly;
     margin-bottom: 25px;
 }
+
+/* # {
+  --animate-repeat: 5;
+} */

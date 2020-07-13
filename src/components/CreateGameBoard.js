@@ -61,9 +61,16 @@ export const CreateGameboard = () => {
         }
     }
 
+    if (gameStatus === 'CHECKMATE!' && document.getElementById('gameStatus')) document.getElementById('gameStatus').className = 'animate__animated animate__wobble animate__repeat-3'
+    if (playerName === turn && document.getElementById('turn')) {
+        document.getElementById('turn').className = 'animate__animated animate__rubberBand animate__repeat-3'
+    } else if (playerName !== turn && document.getElementById('turn')){
+        document.getElementById('turn').removeAttribute('class')
+    }
     const selectPieceToMove = (e) => {
         if(playerName !== turn) return
         if(gameStatus === 'CHECKMATE!') return;
+
         setGameStatus('PLAYING')
         if(turn === 'white'){
             if(!selectedPiece) {
@@ -228,10 +235,6 @@ export const CreateGameboard = () => {
             if (e.target.id.includes('pawn') && promoArr.includes(destination)) {
                 document.querySelector('.modal').style.display = 'block'
                 setPause(true)
-                // while(!promotionPiece) {
-                //     console.log('yeah')
-                // }
-                // pausecomp(5000)
                 if(promotionPiece) {
                     const tempArr = layout
                     tempArr[lastDest] = promotionPiece
@@ -250,34 +253,29 @@ export const CreateGameboard = () => {
             } else if (layout[63] === 'null') {
                 setWhiteRook2Move(true)
             }
-            // checks for checkmate
-            // console.log(kingSpot, ownColor, opponentColor)
+
             if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) {
                 setGameStatus('CHECKMATE!')
+                document.getElementById('gameStatus').className = 'animate__animated animate__wobble animate__repeat-3'
                 sendGameboard(layout, turn, 'CHECKMATE!');
+                setTimeout(() => {
+                  return   
+                }, 3000)
                 return
             }
             if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
+                // document.getElementById('turn').removeAttribute('class')
                 setGameStatus('CHECK!')
-                // console.log(gameStatus)
                 sendGameboard(layout, turn, 'CHECK!');
             } else if(layout) {
+                // document.getElementById('turn').removeAttribute('class')
                 sendGameboard(layout, turn, gameStatus);
             }
-            // console.log(gameBoard, 'asas')
-            // if(layout) {
-            //     // console.log(Object.keys(layout).length)
-            //     // setGameBoard(layout)
-            //     // console.log(gameStatus)
-            //     // console.log('piece moved in create', layout.slice(48, 56).includes('null'))
-            //     sendGameboard(layout, turn, gameStatus);
-            // }
         } 
     }
 
     for(let i = 0; i < 64; i++) {
         let className;
-        // if(layout[i] === undefined) console.log(layout)
         if((i >= 0 && i <= 7) || (i >= 16 && i <= 23) || (i >= 32 && i <= 39) || (i >= 48 && i <= 55)){
             if(i % 2 === 0) {
                 className = `square-${i} white-square squares`
