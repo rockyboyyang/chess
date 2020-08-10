@@ -4,6 +4,9 @@ An application for the game Chess.  Chess is a two-player strategy board game th
 # Live Link
 <a href="https://powerful-mountain-20313.herokuapp.com/gameBoard">LIVE LINK HERE</a>
 
+# Repo Link
+<a href="https://github.com/rockyboyyang/chess-server">LIVE LINK HERE</a>
+
 # Technologies
 - Front-end development
     - React
