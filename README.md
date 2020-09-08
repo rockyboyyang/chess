@@ -1,8 +1,11 @@
 # Chess
-An application for the game Chess.  Chess is a two-player strategy board game that is played on a 8 x 8 checker-patterned gameboard with 64 total squares.  A game played by millions of people worldwide.
+An application for the game Chess.  Chess is a two-player strategy board game that is played on a 8 x 8 checker-patterned gameboard with 64 total squares.  A game played by millions of people worldwide.  In order for the application to work, you need to have two windows open.  One person should click on a color, and the other should click on the other color.  The application utilizes web sockets, so the two players can play with each other.
 
 # Live Link
 <a href="https://powerful-mountain-20313.herokuapp.com/gameBoard">LIVE LINK HERE</a>
+
+# Repo Link
+<a href="https://github.com/rockyboyyang/chess-server">LIVE LINK HERE</a>
 
 # Technologies
 - Front-end development
