@@ -7,7 +7,7 @@ import { isCheckmate } from '../gameLogic/isCheckmateLogic'
 import { GameBoardContext } from '../context/GameBoardContext'
 
 export const CreateGameboard = () => {
-    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, setLayout, squares, lastDest, setLastDest, setPause, setPromotion, setGameBoard, sendGameboard, gameBoard, playerName } = useContext(GameBoardContext)
+    const { gameStatus, setGameStatus, turn, changeTurn, promotionPiece, setLayout, squares, lastDest, setLastDest, setPause, setPromotion, setGameBoard, sendGameboard, gameBoard, playerName, onePlayerGame, twoPlayerGame } = useContext(GameBoardContext)
     const layout = gameBoard;
     const board = [];
     const [selectedPiece, setSelectedPiece] = useState('')
@@ -43,8 +43,10 @@ export const CreateGameboard = () => {
         // if (isChecked(kingSpot, opponentColor, layout, kingSquare, king.id)) {
         //     setGameStatus('CHECK!')
         // } 
-        if (turn === 'white') sendGameboard(layout, 'black');
-        if (turn === 'black') sendGameboard(layout, 'white');
+        if(twoPlayerGame) {
+            if (turn === 'white') sendGameboard(layout, 'black');
+            if (turn === 'black') sendGameboard(layout, 'white');
+        }
 
     }
 
@@ -257,7 +259,7 @@ export const CreateGameboard = () => {
             if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) {
                 setGameStatus('CHECKMATE!')
                 document.getElementById('gameStatus').className = 'animate__animated animate__wobble animate__repeat-3'
-                sendGameboard(layout, turn, 'CHECKMATE!');
+                if (twoPlayerGame) sendGameboard(layout, turn, 'CHECKMATE!');
                 setTimeout(() => {
                   return   
                 }, 3000)
@@ -266,10 +268,11 @@ export const CreateGameboard = () => {
             if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
                 // document.getElementById('turn').removeAttribute('class')
                 setGameStatus('CHECK!')
-                sendGameboard(layout, turn, 'CHECK!');
+                if(twoPlayerGame) sendGameboard(layout, turn, 'CHECK!');
             } else if(layout) {
                 // document.getElementById('turn').removeAttribute('class')
-                sendGameboard(layout, turn, gameStatus);
+
+                if(twoPlayerGame) sendGameboard(layout, turn, gameStatus);
             }
         } 
     }

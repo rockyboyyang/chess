@@ -10,9 +10,13 @@ function App() {
   const squares = readyUpChessBoard();
   const [playerName, setPlayerName] = useState('');
   const [match, setMatch] = useState(null)
+  const [onePlayerGame, setOnePlayerGame] = useState(false);
+  const [twoPlayerGame, setTwoPlayerGame] = useState(false);
   const [gameBoard, setGameBoard] = useState(squares)
   const webSocket = useRef(null)
+  
   useEffect(() => {
+    if(!twoPlayerGame) return;
     if(!playerName) {
       return;
     }
@@ -88,9 +92,9 @@ function App() {
   return (
     <BrowserRouter>
       {playerName ? (
-        <GameBoard playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn} gameStatus={gameStatus} setGameStatus={setGameStatus}/>
+        <GameBoard playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn} gameStatus={gameStatus} setGameStatus={setGameStatus} onePlayerGame={onePlayerGame} twoPlayerGame={twoPlayerGame}/>
       ) : (
-        <Home updatePlayerName={updatePlayerName} />
+        <Home updatePlayerName={updatePlayerName} onePlayerGame={onePlayerGame} twoPlayerGame={twoPlayerGame} setOnePlayerGame={setOnePlayerGame} setTwoPlayerGame={setTwoPlayerGame} setMatch={setMatch}/>
       )}
     </BrowserRouter>
   );

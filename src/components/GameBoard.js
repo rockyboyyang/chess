@@ -4,7 +4,7 @@ import { GameBoardContext } from '../context/GameBoardContext'
 import Square from './Square';
 import readyUpChessBoard from '../squaresArray'
 
-const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus}) => {
+const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus, onePlayerGame, twoPlayerGame}) => {
     // const [gameStatus, setGameStatus] = useState('PLAYING')
     const [promotionPiece, setPromotion] = useState('')
     const squares = readyUpChessBoard();
@@ -44,7 +44,7 @@ const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, t
     }
 
     return (
-        <GameBoardContext.Provider value={{ gameStatus, setGameStatus, turn, changeTurn, promotionPiece, setPromotion, layout, setLayout, squares,lastDest, setLastDest , setPause, setGameBoard, sendGameboard, gameBoard, playerName}}>
+        <GameBoardContext.Provider value={{ gameStatus, setGameStatus, turn, changeTurn, promotionPiece, setPromotion, layout, setLayout, squares,lastDest, setLastDest , setPause, setGameBoard, sendGameboard, gameBoard, playerName, onePlayerGame, twoPlayerGame}}>
             {match ? (
                 <>
                     <div className="modal" style={{display:"none"}}>
