@@ -46,8 +46,10 @@ export const CreateGameboard = () => {
         if(twoPlayerGame) {
             if (turn === 'white') sendGameboard(layout, 'black');
             if (turn === 'black') sendGameboard(layout, 'white');
+        } else {
+            if (turn === 'white') changeTurn('black')
+            if (turn === 'black') changeTurn('white')
         }
-
     }
 
     // rotates the board and pieces for black
@@ -69,93 +71,225 @@ export const CreateGameboard = () => {
     } else if (playerName !== turn && document.getElementById('turn')){
         document.getElementById('turn').removeAttribute('class')
     }
-    const selectPieceToMove = (e) => {
-        if(playerName !== turn) return
-        if(gameStatus === 'CHECKMATE!') return;
 
+    const randomIntFromInterval = (min, max) => { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    
+    // AI Moves
+    const aiMoves = () => {
+        if(onePlayerGame) {
+            if(playerName === 'white' && turn === 'black') {
+                selectPieceToMove()
+            }
+        }
+    }
+    // const aiMoves = () => { 
+    //     if(onePlayerGame) {
+    //         if (playerName === 'white' && turn === 'black') {
+    //             let arrOfAIsquareNums = [];
+    //             for(let i = 0; i < layout.length; i++) {
+    //                 if(layout[i].includes('black')) {
+    //                     arrOfAIsquareNums.push(i)
+    //                 }
+    //             }
+    //             let pieceCanMove = false;
+    //             while(pieceCanMove === false) {
+    //                 let randomPiece = randomIntFromInterval(0, arrOfAIsquareNums.length)
+    //                 let pieceToMove = document.querySelector(`.square-${arrOfAIsquareNums[randomPiece]}`)
+    //                 // setSelectedPiece(pieceToMove.id)
+    //                 // setPreviousSelected(pieceToMove.className)
+    //                 let selectedPiece = pieceToMove.id
+    //                 let previousSelected = pieceToMove.className
+    //                 const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
+    //                 let canMove = false;
+    //                 let visitedSquares = {}
+    //                 while(canMove === false){
+    //                     let destination = randomIntFromInterval(0, 63)
+    //                     if(destination in visitedSquares) continue;
+    //                     visitedSquares[destination] = destination
+
+    //                 }
+    //             } 
+    //             // const destination = Number(e.target.className.split(' ')[0].slice(7))
+    //             // setLastDest(destination)
+    //             // const currentSquareColor = previousSelected.split(' ')[1]
+    //             // const destSquareColor = e.target.className.split(' ')[1]
+    //             // console.log(currentSpot)
+    //         }
+    //     }
+    // }
+
+    useEffect(() => {
+        aiMoves();
+    },)
+
+    const selectPieceToMove = (e) => {
+        if(gameStatus === 'CHECKMATE!') return;
+        let tempSelectedPiece;
+        if(onePlayerGame) {
+            if(playerName === 'white' && turn === 'black') {
+                let arrOfAIsquareNums = [];
+                for(let i = 0; i < layout.length; i++) {
+                    if(layout[i].includes('black')) {
+                        arrOfAIsquareNums.push(i)
+                    }
+                }
+                let randomPiece = randomIntFromInterval(0, arrOfAIsquareNums.length - 1)
+                tempSelectedPiece = document.querySelector(`.square-${arrOfAIsquareNums[randomPiece]}`)
+            } else {
+                if (playerName !== turn) return
+                tempSelectedPiece = e.target
+            }
+        } else {
+            if (playerName !== turn) return
+            tempSelectedPiece = e.target
+        }
         setGameStatus('PLAYING')
         if(turn === 'white'){
             if(!selectedPiece) {
-                if(e.target.id === 'undefined') return
-                if(!e.target.id.includes(ownColor)) {
+                if(tempSelectedPiece.id === 'undefined') return
+                if(!tempSelectedPiece.id.includes(ownColor)) {
                     setGameStatus("That's not your piece!")
                     return
                 }
-                setSelectedPiece(e.target.id)
-                setPreviousSelected(e.target.className)
+                setSelectedPiece(tempSelectedPiece.id)
+                setPreviousSelected(tempSelectedPiece.className)
             }
         } else {
             if (!selectedPiece) {
-                if (e.target.id === 'undefined') return
-                if (!e.target.id.includes(ownColor)) {
+                if (tempSelectedPiece.id === 'undefined') return
+                if (!tempSelectedPiece.id.includes(ownColor)) {
                     setGameStatus("That's not your piece!")
                     return
                 }
-                setSelectedPiece(e.target.id)
-                setPreviousSelected(e.target.className)
+                setSelectedPiece(tempSelectedPiece.id)
+                setPreviousSelected(tempSelectedPiece.className)
             }
         }
         
         if (selectedPiece) {
+            console.log(selectedPiece)
+            let pieceCanMove = false;
+            let aiTurn = false;
+            let visitedDest = {}
+            while(pieceCanMove === false) {
+            let tempSelectedDest;
+            if (onePlayerGame) {
+                if (playerName === 'white' && turn === 'black') {
+                    aiTurn = true;
+                    let arrOfAIsquareNums = [];
+                    for (let i = 0; i < layout.length; i++) {
+                        if (layout[i].includes('black')) {
+                            arrOfAIsquareNums.push(i)
+                        }
+                    }
+                    let randomDest = randomIntFromInterval(0, 63)
+                    if(randomDest in visitedDest) continue
+                    visitedDest[randomDest] = randomDest
+                    tempSelectedDest = document.querySelector(`.square-${randomDest}`)
+                } else {
+                    tempSelectedDest = e.target
+                }
+            } else {
+                tempSelectedDest = e.target
+            }
+
             // returns if clicks on own piece
-            if (e.target.id.includes(ownColor)) {
+            if (tempSelectedDest.id.includes(ownColor)) {
                 setSelectedPiece('')
                 return
             }
             // check for valid moves
             const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
-            const destination = Number(e.target.className.split(' ')[0].slice(7))
+            const destination = Number(tempSelectedDest.className.split(' ')[0].slice(7))
             setLastDest(destination)
             const currentSquareColor = previousSelected.split(' ')[1]
-            const destSquareColor = e.target.className.split(' ')[1]
+            const destSquareColor = tempSelectedDest.className.split(' ')[1]
             // let opponentColor = turn === 'white' ? 'black' : 'white';
 
             if(selectedPiece.includes('pawn')) {
-                if (!pawnMoveLogic(currentSpot, destination, ownColor, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if(aiTurn) {
+                    if (!pawnMoveLogic(currentSpot, destination, ownColor, layout)) {
+                        continue
+                    }
+                } else {
+                    if (!pawnMoveLogic(currentSpot, destination, ownColor, layout)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
 
             if (selectedPiece.includes('knight')) {
-                if (!knightMoveLogic(currentSpot, destination)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if (aiTurn) {
+                    if (!knightMoveLogic(currentSpot, destination, ownColor, layout)) {
+                        continue
+                    }
+                } else {
+                    if (!knightMoveLogic(currentSpot, destination, ownColor, layout)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
             
             if(selectedPiece.includes('bishop')) {
-                if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if (aiTurn) {
+                    if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                        continue
+                    }
+                } else {
+                    if (!bishopMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
 
             if (selectedPiece.includes('rook')) {
-                if (!rookMoveLogic(currentSpot, destination, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if (aiTurn) {
+                    if (!rookMoveLogic(currentSpot, destination, layout)) {
+                        continue
+                    }
+                } else {
+                    if (!rookMoveLogic(currentSpot, destination, layout)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
 
             if (selectedPiece.includes('queen')) {
-                if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if (aiTurn) {
+                    if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                        continue
+                    }
+                } else {
+                    if (!queenMoveLogic(currentSpot, destination, currentSquareColor, destSquareColor, layout)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
 
             if (selectedPiece.includes('king')) {
                 let king = turn === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
-                if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id, ifMoved )) {
-                    setGameStatus('INVALID MOVE')
-                    setSelectedPiece('')
-                    return
+                if (aiTurn) {
+                    if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id, ifMoved)) {
+                        continue
+                    }
+                } else {
+                    if (!kingMoveLogic(currentSpot, destination, layout, opponentColor, destSquareColor, king.id, ifMoved)) {
+                        setGameStatus('INVALID MOVE')
+                        setSelectedPiece('')
+                        return
+                    }
                 }
             }
             
@@ -163,62 +297,103 @@ export const CreateGameboard = () => {
 
             //  Checks to see if you can safely move a piece without
             // putting your king in check
-            if(!selectedPiece.includes('king')){
-                tempArr[destination] = selectedPiece
-                tempArr[currentSpot] = 'null';
-                let king = ownColor === 'white' ? document.querySelector(`#king-white`): document.querySelector(`#king-black`)
-                let kingSpot = Number(king.className.split(' ')[0].slice(7))
-                let kingSquare = king.className.split(' ')[1]
-                if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
-                    setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
-                    tempArr[destination] = 'null'
-                    tempArr[currentSpot] = selectedPiece;
-                    setSelectedPiece('')
-                    return;
-                } 
+            if(aiTurn) {
+                if (!selectedPiece.includes('king')) {
+                    tempArr[destination] = selectedPiece
+                    tempArr[currentSpot] = 'null';
+                    let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                    let kingSpot = Number(king.className.split(' ')[0].slice(7))
+                    let kingSquare = king.className.split(' ')[1]
+                    if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
+                        tempArr[destination] = 'null'
+                        tempArr[currentSpot] = selectedPiece;
+                        continue;
+                    }
+                }
+            } else {
+                if (!selectedPiece.includes('king')) {
+                    tempArr[destination] = selectedPiece
+                    tempArr[currentSpot] = 'null';
+                    let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                    let kingSpot = Number(king.className.split(' ')[0].slice(7))
+                    let kingSquare = king.className.split(' ')[1]
+                    if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
+                        setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
+                        tempArr[destination] = 'null'
+                        tempArr[currentSpot] = selectedPiece;
+                        setSelectedPiece('')
+                        return;
+                    }
+                }
             }
 
             // checks castling
-            if (selectedPiece.includes('king') && Math.abs(currentSpot - destination) === 2) {
-                let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
-                for(let i = - 2; i < 0; i ++) {
-                    let coloredSquare = document.querySelector(`.square-${currentSpot - i}`).className.split(' ')[1]
-                    if(isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
-                        setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
-                        return
+            if(aiTurn) {
+                if (selectedPiece.includes('king') && Math.abs(currentSpot - destination) === 2) {
+                    let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                    for (let i = - 2; i < 0; i++) {
+                        let coloredSquare = document.querySelector(`.square-${currentSpot - i}`).className.split(' ')[1]
+                        if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                            continue
+                        }
                     }
-                }
-                for (let i = 2; i > 0; i--) {
-                    let coloredSquare = document.querySelector(`.square-${currentSpot + i}`).className.split(' ')[1]
-                    if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
-                        setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
-                        return
+                    for (let i = 2; i > 0; i--) {
+                        let coloredSquare = document.querySelector(`.square-${currentSpot + i}`).className.split(' ')[1]
+                        if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                            continue
+                        }
                     }
+                    if (currentSpot > destination) {
+                        layout[currentSpot - 1] = layout[currentSpot - 4]
+                        layout[currentSpot - 4] = 'null';
+                    } else if (currentSpot < destination) {
+                        layout[currentSpot + 1] = layout[currentSpot + 3]
+                        layout[currentSpot + 3] = 'null';
+                    }
+                    turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
                 }
-                if(currentSpot > destination) {
-                    layout[currentSpot - 1] = layout[currentSpot - 4]
-                    layout[currentSpot - 4] = 'null';
-                } else if (currentSpot < destination) {
-                    layout[currentSpot + 1] = layout[currentSpot + 3]
-                    layout[currentSpot + 3] = 'null';
+            } else {
+                if (selectedPiece.includes('king') && Math.abs(currentSpot - destination) === 2) {
+                    let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
+                    for (let i = - 2; i < 0; i++) {
+                        let coloredSquare = document.querySelector(`.square-${currentSpot - i}`).className.split(' ')[1]
+                        if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                            setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
+                            return
+                        }
+                    }
+                    for (let i = 2; i > 0; i--) {
+                        let coloredSquare = document.querySelector(`.square-${currentSpot + i}`).className.split(' ')[1]
+                        if (isChecked(currentSpot + i, opponentColor, layout, coloredSquare, king.id)) {
+                            setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
+                            return
+                        }
+                    }
+                    if (currentSpot > destination) {
+                        layout[currentSpot - 1] = layout[currentSpot - 4]
+                        layout[currentSpot - 4] = 'null';
+                    } else if (currentSpot < destination) {
+                        layout[currentSpot + 1] = layout[currentSpot + 3]
+                        layout[currentSpot + 3] = 'null';
+                    }
+                    turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
                 }
-                turn === 'white' ? setWhiteKingMove(true) : setBlackKingMove(true)
             }
 
-            if(e.target.id !== 'undefined') {
-               const tempCasualtyArr = turn === 'white' ? blackCasualties : whiteCasualties
-               tempCasualtyArr.push(e.target.id)
-               turn === 'white' ? setBlackCasualties(tempCasualtyArr) : setWhiteCasualties(tempCasualtyArr)
+            if(tempSelectedDest.id !== 'undefined') {
+                const tempCasualtyArr = turn === 'white' ? blackCasualties : whiteCasualties
+                tempCasualtyArr.push(tempSelectedDest.id)
+                turn === 'white' ? setBlackCasualties(tempCasualtyArr) : setWhiteCasualties(tempCasualtyArr)
             }
 
-            e.target.id = selectedPiece;
+            tempSelectedDest.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
             // console.log(turn, 'before change cfb.js')
             // if (turn === 'white') changeTurn('black')
             // if (turn === 'black') changeTurn('white')
             // console.log(turn, 'after change cfb.js')
-            tempArr[destination] = e.target.id
+            tempArr[destination] = tempSelectedDest.id
             tempArr[currentSpot] = 'null';
             // console.log('tempArr',tempArr)
             setLayout(tempArr)
@@ -234,7 +409,7 @@ export const CreateGameboard = () => {
             const promoArr = [0, 1, 2, 3, 4, 5, 6, 7, 56, 57, 58, 59, 60, 61, 62, 63]
             // console.log(promoArr.includes(destination))
             
-            if (e.target.id.includes('pawn') && promoArr.includes(destination)) {
+            if (tempSelectedDest.id.includes('pawn') && promoArr.includes(destination)) {
                 document.querySelector('.modal').style.display = 'block'
                 setPause(true)
                 if(promotionPiece) {
@@ -260,8 +435,9 @@ export const CreateGameboard = () => {
                 setGameStatus('CHECKMATE!')
                 document.getElementById('gameStatus').className = 'animate__animated animate__wobble animate__repeat-3'
                 if (twoPlayerGame) sendGameboard(layout, turn, 'CHECKMATE!');
+                pieceCanMove = true;
                 setTimeout(() => {
-                  return   
+                    return   
                 }, 3000)
                 return
             }
@@ -269,12 +445,24 @@ export const CreateGameboard = () => {
                 // document.getElementById('turn').removeAttribute('class')
                 setGameStatus('CHECK!')
                 if(twoPlayerGame) sendGameboard(layout, turn, 'CHECK!');
+                else {
+                    setGameStatus('CHECK!')
+                    pieceCanMove = true;
+                    if (turn === 'white') changeTurn('black')
+                    if (turn === 'black') changeTurn('white')
+                }
             } else if(layout) {
                 // document.getElementById('turn').removeAttribute('class')
 
-                if(twoPlayerGame) sendGameboard(layout, turn, gameStatus);
+                if(twoPlayerGame) sendGameboard(layout, turn, gameStatus)
+                else {
+                    pieceCanMove = true;
+                    if (turn === 'white') changeTurn('black')
+                    if (turn === 'black') changeTurn('white')
+                }
             }
-        } 
+            } 
+        }
     }
 
     for(let i = 0; i < 64; i++) {

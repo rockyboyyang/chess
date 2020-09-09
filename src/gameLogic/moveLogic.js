@@ -90,7 +90,6 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
     // increment wlll be 8 on vertical movement
     // console.log(increment)
     // console.log(modulo, difference)
-
     let blockSpace;
     // blockspace will represent the first space that has a piece on it
     if (modulo && difference) {
@@ -99,14 +98,19 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 blockSpace = i;
                 if (layout[i] !== 'null') break;
             }
-            if (blockSpace > destination) return false;
-
+            if (blockSpace > destination) {
+                console.log(false)
+                return false
+            }
         } else {
             for (let i = currentSpot + increment; i < currentSpot + difference; i++) {
                 blockSpace = i;
                 if (layout[i] !== 'null') break;
             }
-            if (blockSpace < destination) return false;
+            if (blockSpace < destination) {
+                console.log(false)
+                return false
+            }
         }
     } else {
         if (currentSpot > destination) {
@@ -114,13 +118,19 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 blockSpace = i;
                 if (layout[i] !== 'null') break;
             }
-            if (blockSpace > destination) return false
+            if (blockSpace > destination) {
+                console.log(false)
+                return false
+            }
         } else {
             for (let i = currentSpot + increment; i <= destination; i += increment) {
                 blockSpace = i;
                 if (layout[i] !== 'null') break;
             }
-            if (blockSpace < destination) return false
+            if (blockSpace < destination) {
+                console.log(false)
+                return false
+            }
         }
     }
     return true;
@@ -130,12 +140,12 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
 const diagnalMovement = (currentSpot, destination, currentSquareColor, destSquareColor, layout) => {
     const increment = (Math.abs(currentSpot - destination) % 9 === 0) ? 9 : 7;
     // squarecolor checks for bugs
+    console.log(checkObstacle(currentSpot, destination, layout, increment))
     if (
         (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) &&
         (currentSquareColor === destSquareColor) &&
         checkObstacle(currentSpot, destination, layout, increment)
     ) return true;
-
     else {
         console.log('INVALID MOVE')
         return false;
