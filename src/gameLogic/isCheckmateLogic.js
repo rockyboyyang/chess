@@ -51,7 +51,6 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         //     isChecked(kingSpot, color, layout, kingSquare, kingId) &&
         //     !pawnMoveLogic(currentSpot, destination, turn, layout)
         // )
-        console.log(gapArray)
         if (color === 'white') {
             if (gapArray[i] - 16 >= 0) {
                 if (pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor, layout)) return false;
@@ -69,7 +68,6 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
     }
 
     if (!isChecked(kingSpot, color, layout, kingSquare, kingId)) {
-        // console.log('FALSE')
         return false;
     }
 
@@ -77,9 +75,7 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
     let destSquareColor = destDiv.className.split(' ')[1]
 
     // sees if the opposing piece that checks your king can be captured from opposing piece
-    // console.log(destDiv, opponentColor, destDiv.id)
     if (isChecked(destination, opponentColor, layout, destSquareColor, destDiv.id)) {
-        // console.log('FALSE')
         return false;
     }
 
@@ -88,7 +84,6 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         let newDest = kingSpot + i;
         if ((newDest < 0 || newDest > 63) || noIncludes.includes(i)) continue;
         if (layout[newDest] !== null) {
-            // console.log('newDest', layout[newDest], newDest)
             if (layout[newDest].includes(`${opponentColor}`)) continue;
         }
         // console.log(layout[newDest], color, opponentColor)
@@ -96,11 +91,9 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         let newDestSquareColor = destDiv.className.split(' ')[1]
         // if(destDiv.id.includes(`${opponentColor}`)) return false;
         if (kingMoveLogic(kingSpot, newDest, layout, color, newDestSquareColor, kingId)) {
-            // console.log(kingSpot, newDest, color, newDestSquareColor, kingId)
             return false;
         }
     }
-    console.log('CHECKMATE')
     return true
 }
 

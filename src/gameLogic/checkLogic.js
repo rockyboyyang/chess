@@ -1,15 +1,10 @@
 import { pawnMoveLogic, knightMoveLogic, kingMoveLogic } from "./moveLogic";
 
 function isChecked (kingSpot, color, layout, kingSquare, kingId) {
-    // console.log(kingSpot, color, layout, kingSquare)
-    // console.log(kingId)
     function queenRookAndBishopLoop(queen, rookOrBishop, i) {
-        // if(layout[i] === kingId)
         if (layout[i] !== 'null' && (layout[i] !== `${queen}-${color}` && layout[i] !== `${rookOrBishop}-${color}`)) {
-            // console.log('break')
             return false
         } else if (layout[i] === `${queen}-${color}` || layout[i] === `${rookOrBishop}-${color}`) {
-            // console.log('check')
             return true
         }
     }
@@ -121,9 +116,7 @@ function isChecked (kingSpot, color, layout, kingSquare, kingId) {
     const upRight = kingSpot - 7;
     const downLeft = kingSpot + 7;
     const downRight = kingSpot + 9;
-    // const checkedSquaresNine = kingId === 'king-white' ? document.querySelector(`.square-${upLeft}`).className.split(' ')[1] : document.querySelector(`.square-${downRight}`).className.split(' ')[1]
-    // const checkedSquaresSeven = kingId === 'king-white' ? document.querySelector(`.square-${upRight}`).className.split(' ')[1] : document.querySelector(`.square-${downLeft}`).className.split(' ')[1]
-    // console.log(checkedSquaresSeven, checkedSquaresNine, kingSquare)
+
     const leftSide = [0, 8, 16, 24, 32, 40, 48, 56]
     const rightSide = [7, 15, 23, 31, 39, 47, 55, 63]
     

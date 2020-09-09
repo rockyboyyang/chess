@@ -31,18 +31,11 @@ export const CreateGameboard = () => {
     const ownColor = turn === 'white' ? 'white' : 'black'
     const opponentColor = turn === 'white' ? 'black' : 'white'
     if (promotionPiece) {
-        console.log(promotionPiece, 'This is promo ppiece')
         const tempArr = layout
         tempArr[lastDest] = promotionPiece
         setLayout(tempArr)
         setPromotion('')
-        // let king = document.querySelector(`#king-black`)
-        // console.log(king)
-        // let kingSpot = Number(king.className.split(' ')[0].slice(7))
-        // let kingSquare = king.className.split(' ')[1]
-        // if (isChecked(kingSpot, opponentColor, layout, kingSquare, king.id)) {
-        //     setGameStatus('CHECK!')
-        // } 
+        
         if(twoPlayerGame) {
             if (turn === 'white') sendGameboard(layout, 'black');
             if (turn === 'black') sendGameboard(layout, 'white');
@@ -82,46 +75,18 @@ export const CreateGameboard = () => {
             if(playerName === 'white' && turn === 'black') {
                 selectPieceToMove()
             }
+            if (playerName === 'black' && turn === 'white') {
+                selectPieceToMove()
+            }
         }
     }
-    // const aiMoves = () => { 
-    //     if(onePlayerGame) {
-    //         if (playerName === 'white' && turn === 'black') {
-    //             let arrOfAIsquareNums = [];
-    //             for(let i = 0; i < layout.length; i++) {
-    //                 if(layout[i].includes('black')) {
-    //                     arrOfAIsquareNums.push(i)
-    //                 }
-    //             }
-    //             let pieceCanMove = false;
-    //             while(pieceCanMove === false) {
-    //                 let randomPiece = randomIntFromInterval(0, arrOfAIsquareNums.length)
-    //                 let pieceToMove = document.querySelector(`.square-${arrOfAIsquareNums[randomPiece]}`)
-    //                 // setSelectedPiece(pieceToMove.id)
-    //                 // setPreviousSelected(pieceToMove.className)
-    //                 let selectedPiece = pieceToMove.id
-    //                 let previousSelected = pieceToMove.className
-    //                 const currentSpot = Number(previousSelected.split(' ')[0].slice(7))
-    //                 let canMove = false;
-    //                 let visitedSquares = {}
-    //                 while(canMove === false){
-    //                     let destination = randomIntFromInterval(0, 63)
-    //                     if(destination in visitedSquares) continue;
-    //                     visitedSquares[destination] = destination
-
-    //                 }
-    //             } 
-    //             // const destination = Number(e.target.className.split(' ')[0].slice(7))
-    //             // setLastDest(destination)
-    //             // const currentSquareColor = previousSelected.split(' ')[1]
-    //             // const destSquareColor = e.target.className.split(' ')[1]
-    //             // console.log(currentSpot)
-    //         }
-    //     }
-    // }
 
     useEffect(() => {
-        aiMoves();
+        try {
+            aiMoves();
+        } catch (e) {
+            console.log(e)
+        }
     },)
 
     const selectPieceToMove = (e) => {
@@ -132,6 +97,15 @@ export const CreateGameboard = () => {
                 let arrOfAIsquareNums = [];
                 for(let i = 0; i < layout.length; i++) {
                     if(layout[i].includes('black')) {
+                        arrOfAIsquareNums.push(i)
+                    }
+                }
+                let randomPiece = randomIntFromInterval(0, arrOfAIsquareNums.length - 1)
+                tempSelectedPiece = document.querySelector(`.square-${arrOfAIsquareNums[randomPiece]}`)
+            } else if (playerName === 'black' && turn === 'white') {
+                let arrOfAIsquareNums = [];
+                for (let i = 0; i < layout.length; i++) {
+                    if (layout[i].includes('white')) {
                         arrOfAIsquareNums.push(i)
                     }
                 }
@@ -169,7 +143,6 @@ export const CreateGameboard = () => {
         }
         
         if (selectedPiece) {
-            console.log(selectedPiece)
             let pieceCanMove = false;
             let aiTurn = false;
             let visitedDest = {}
@@ -186,6 +159,18 @@ export const CreateGameboard = () => {
                     }
                     let randomDest = randomIntFromInterval(0, 63)
                     if(randomDest in visitedDest) continue
+                    visitedDest[randomDest] = randomDest
+                    tempSelectedDest = document.querySelector(`.square-${randomDest}`)
+                } else if (playerName === 'black' && turn === 'white'){
+                    aiTurn = true;
+                    let arrOfAIsquareNums = [];
+                    for (let i = 0; i < layout.length; i++) {
+                        if (layout[i].includes('white')) {
+                            arrOfAIsquareNums.push(i)
+                        }
+                    }
+                    let randomDest = randomIntFromInterval(0, 63)
+                    if (randomDest in visitedDest) continue
                     visitedDest[randomDest] = randomDest
                     tempSelectedDest = document.querySelector(`.square-${randomDest}`)
                 } else {
@@ -389,25 +374,17 @@ export const CreateGameboard = () => {
             tempSelectedDest.id = selectedPiece;
             setSelectedPiece('')
             document.querySelector(`.${previousSelected.split(' ')[0]}`).removeAttribute('id')
-            // console.log(turn, 'before change cfb.js')
-            // if (turn === 'white') changeTurn('black')
-            // if (turn === 'black') changeTurn('white')
-            // console.log(turn, 'after change cfb.js')
             tempArr[destination] = tempSelectedDest.id
             tempArr[currentSpot] = 'null';
-            // console.log('tempArr',tempArr)
             setLayout(tempArr)
+
             // king grabs the opposing king
             let king = opponentColor === 'black' ? document.querySelector(`#king-black`) : document.querySelector(`#king-white`)
             let kingSpot = Number(king.className.split(' ')[0].slice(7))
             let kingSquare = king.className.split(' ')[1]
-            // if (gameStatus) setGameStatus('PLAYING')
-            // checks for promotion 
-            // document.querySelector(`.square-${destination}`).id = 'queen-white'
-            // document.querySelector(`.square-${destination}`).id = 'queen-white'
+
             
             const promoArr = [0, 1, 2, 3, 4, 5, 6, 7, 56, 57, 58, 59, 60, 61, 62, 63]
-            // console.log(promoArr.includes(destination))
             
             if (tempSelectedDest.id.includes('pawn') && promoArr.includes(destination)) {
                 document.querySelector('.modal').style.display = 'block'

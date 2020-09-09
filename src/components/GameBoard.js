@@ -39,7 +39,6 @@ const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, t
         document.querySelector('.modal').style.display = 'none'
         setPromotion(`rook-${ownColor}`)
         setPause(false)
-        console.log(promotionPiece)
         return
     }
 

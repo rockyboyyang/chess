@@ -47,11 +47,11 @@ function App() {
     };
 
     ws.onerror = e => {
-      console.log(e);
+      // console.log(e);
     };
 
     ws.onclose = e => {
-      console.log(`Connection closed: ${e}`);
+      // console.log(`Connection closed: ${e}`);
       webSocket.current = null;
       setPlayerName('');
       setMatch(null);
@@ -63,7 +63,7 @@ function App() {
         data,
       });
 
-      console.log(`Sending message ${message}...`);
+      // console.log(`Sending message ${message}...`);
 
       ws.send(message);
     };
@@ -85,7 +85,6 @@ function App() {
   }
 
   const sendGameboard = (layout, turn, gameStatus) => {
-    console.log(gameStatus)
     webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn, gameStatus });
   };
 

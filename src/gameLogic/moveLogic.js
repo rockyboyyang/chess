@@ -16,7 +16,6 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         }
         if (layout[destination] !== 'null' && destination === currentSpot - 7) return true
         if (layout[destination] !== 'null' && destination === currentSpot - 9) return true
-        console.log('INVALID MOVE')
         return false;
     } else {
         if (blackArr.includes(currentSpot)) {
@@ -26,7 +25,6 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         }
         if (layout[destination] !== 'null' && destination === currentSpot + 7) return true
         if (layout[destination] !== 'null' && destination === currentSpot + 9) return true
-        console.log('INVALID MOVE')
         return false;
     }
 }
@@ -80,16 +78,11 @@ const knightMoveLogic = (currentSpot, destination) => {
         currentSpot + 6 === destination
     ) return true
     else {
-        console.log('INVALID MOVE')
         return false;
     }
 }
 
 function checkObstacle(currentSpot, destination, layout, increment, modulo, difference) {
-    // increment will either be 7 or 9 depending on the destination of diagnal movement
-    // increment wlll be 8 on vertical movement
-    // console.log(increment)
-    // console.log(modulo, difference)
     let blockSpace;
     // blockspace will represent the first space that has a piece on it
     if (modulo && difference) {
@@ -99,7 +92,6 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 if (layout[i] !== 'null') break;
             }
             if (blockSpace > destination) {
-                console.log(false)
                 return false
             }
         } else {
@@ -108,7 +100,6 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 if (layout[i] !== 'null') break;
             }
             if (blockSpace < destination) {
-                console.log(false)
                 return false
             }
         }
@@ -119,7 +110,6 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 if (layout[i] !== 'null') break;
             }
             if (blockSpace > destination) {
-                console.log(false)
                 return false
             }
         } else {
@@ -128,7 +118,6 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
                 if (layout[i] !== 'null') break;
             }
             if (blockSpace < destination) {
-                console.log(false)
                 return false
             }
         }
@@ -140,14 +129,12 @@ function checkObstacle(currentSpot, destination, layout, increment, modulo, diff
 const diagnalMovement = (currentSpot, destination, currentSquareColor, destSquareColor, layout) => {
     const increment = (Math.abs(currentSpot - destination) % 9 === 0) ? 9 : 7;
     // squarecolor checks for bugs
-    console.log(checkObstacle(currentSpot, destination, layout, increment))
     if (
         (Math.abs(currentSpot - destination) % 9 === 0 || Math.abs(currentSpot - destination) % 7 === 0) &&
         (currentSquareColor === destSquareColor) &&
         checkObstacle(currentSpot, destination, layout, increment)
     ) return true;
     else {
-        console.log('INVALID MOVE')
         return false;
     }
 }
@@ -231,7 +218,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
     const rightSide = [7, 15, 23, 31, 39, 47, 55, 63]
 
     if(isChecked(destination, opponentColor, layout, destSquareColor, kingId)) {
-        console.log('INVALID MOVE: YOU WILL BE IN CHECK')
         return false
     }
 
@@ -244,7 +230,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
                 layout[destination + 8] === 'king-black' ||
                 layout[destination + 1] === 'king-black'
             ) {
-                console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
                 return false;
             }
         } else if (kingId === 'king-black') {
@@ -255,7 +240,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
                 layout[destination + 8] === 'king-white' ||
                 layout[destination + 1] === 'king-white'
             ) {
-                console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
                 return false;
             }
         }   
@@ -268,7 +252,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
                 layout[destination + 8] === 'king-black' ||
                 layout[destination + 7] === 'king-black' 
             ) {
-                console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
                 return false;
             }
         } else if (kingId === 'king-black') {
@@ -279,7 +262,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
                 layout[destination + 8] === 'king-white' ||
                 layout[destination + 7] === 'king-white' 
             ) {
-                console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
                 return false;
             }
         }   
@@ -294,7 +276,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
             layout[destination + 7] === 'king-black' ||
             layout[destination + 1] === 'king-black'
         ) {
-            console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
             return false;
         }
     } else if (kingId === 'king-black') {
@@ -308,7 +289,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
             layout[destination + 7] === 'king-white' ||
             layout[destination + 1] === 'king-white'
         ) {
-            console.log('INVALID MOVE: KING CANNOT BE ADJACENT TO ANOTHER KING')
             return false;
         }
     }  
@@ -324,7 +304,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
             currentSpot + 1 === destination
         ) return true;
         else {
-            console.log('INVALID MOVE')
             return false;
         }
     } else if (rightSide.includes(currentSpot)) {
@@ -336,7 +315,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
             currentSpot + 7 === destination 
         ) return true;
         else {
-            console.log('INVALID MOVE')
             return false;
         }
     }
@@ -352,7 +330,6 @@ const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSqua
         currentSpot + 1 === destination
     ) return true;
     else {
-        console.log('INVALID MOVE')
         return false;
     }
 }
