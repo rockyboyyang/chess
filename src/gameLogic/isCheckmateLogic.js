@@ -6,7 +6,17 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
     const diffCurrAndDest = Math.abs(kingSpot - destination)
     const modulo = kingSpot % 8;
     const difference = 8 - modulo;
+    console.log(kingSpot, color, layout, kingSquare, kingId, destination, opponentColor)
 
+    /*
+    kingspot === 6
+    color === white
+    kingSquare === white-square
+    kingId === king-black
+    destination === 4
+    opponentColor === white
+    diffCurrAndDest === 2
+    */
     if (destination > kingSpot) {
         if (diffCurrAndDest % 9 === 0) {
             for (let i = kingSpot + 9; i < destination; i += 9) {
@@ -45,12 +55,9 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         }
     }
 
+    console.log(gapArray, 'gapArray before loop')
     for (let i = 0; i < gapArray.length; i++) {
         let gapSquareColor = document.querySelector(`.square-${gapArray[i]}`).className.split(' ')[1]
-        // if(
-        //     isChecked(kingSpot, color, layout, kingSquare, kingId) &&
-        //     !pawnMoveLogic(currentSpot, destination, turn, layout)
-        // )
         if (color === 'white') {
             if (gapArray[i] - 16 >= 0) {
                 if (pawnMoveLogic(gapArray[i] - 16, gapArray[i], opponentColor, layout)) return false;
@@ -64,9 +71,10 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         }
 
         // checks if a gap spot is in check
-        if (isChecked(gapArray[i], opponentColor, layout, gapSquareColor, null)) return false;
+        console.log(gapArray, 'gapArray during loop')
+        if (!isChecked(gapArray[i], color, layout, gapSquareColor, null)) return false;
     }
-
+    console.log(gapArray, 'gapArray after loop')
     if (!isChecked(kingSpot, color, layout, kingSquare, kingId)) {
         return false;
     }

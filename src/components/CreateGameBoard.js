@@ -410,6 +410,7 @@ export const CreateGameboard = () => {
 
             if(isCheckmate(kingSpot, ownColor, layout, kingSquare, king.id, destination, opponentColor)) {
                 setGameStatus('CHECKMATE!')
+                console.log(true)
                 document.getElementById('gameStatus').className = 'animate__animated animate__wobble animate__repeat-3'
                 if (twoPlayerGame) sendGameboard(layout, turn, 'CHECKMATE!');
                 pieceCanMove = true;
@@ -417,6 +418,8 @@ export const CreateGameboard = () => {
                     return   
                 }, 3000)
                 return
+            } else {
+                console.log(false)
             }
             if(isChecked(kingSpot, ownColor, layout, kingSquare, king.id)){
                 // document.getElementById('turn').removeAttribute('class')

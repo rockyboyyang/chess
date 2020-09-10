@@ -1,6 +1,7 @@
 import { isChecked } from './checkLogic';
 
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
+    if(currentSpot < 0 || currentSpot > 63) return false;
     if(layout[currentSpot] === 'null') return false;
     if(layout[currentSpot] !== 'null' && currentSpot >= 0 && currentSpot <= 63) {
 
