@@ -284,19 +284,21 @@ export const CreateGameboard = () => {
             // putting your king in check
             if(aiTurn) {
                 if (!selectedPiece.includes('king')) {
+                    let tempPiece = tempArr[destination]
                     tempArr[destination] = selectedPiece
                     tempArr[currentSpot] = 'null';
                     let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
                     let kingSpot = Number(king.className.split(' ')[0].slice(7))
                     let kingSquare = king.className.split(' ')[1]
                     if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
-                        tempArr[destination] = 'null'
+                        tempArr[destination] = tempPiece
                         tempArr[currentSpot] = selectedPiece;
                         continue;
                     }
                 }
             } else {
                 if (!selectedPiece.includes('king')) {
+                    let tempPiece = tempArr[destination]
                     tempArr[destination] = selectedPiece
                     tempArr[currentSpot] = 'null';
                     let king = ownColor === 'white' ? document.querySelector(`#king-white`) : document.querySelector(`#king-black`)
@@ -304,7 +306,7 @@ export const CreateGameboard = () => {
                     let kingSquare = king.className.split(' ')[1]
                     if (isChecked(kingSpot, opponentColor, tempArr, kingSquare, king.id)) {
                         setGameStatus('INVALID: YOUR KING WILL BE IN CHECK')
-                        tempArr[destination] = 'null'
+                        tempArr[destination] = tempPiece
                         tempArr[currentSpot] = selectedPiece;
                         setSelectedPiece('')
                         return;
