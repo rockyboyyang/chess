@@ -3,8 +3,9 @@ import { CreateGameboard } from './CreateGameBoard'
 import { GameBoardContext } from '../context/GameBoardContext'
 import Square from './Square';
 import readyUpChessBoard from '../squaresArray'
+import Footer from './Footer'
 
-const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus, onePlayerGame, twoPlayerGame}) => {
+const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, turn, changeTurn, gameStatus, setGameStatus, onePlayerGame, twoPlayerGame, quitGame}) => {
     // const [gameStatus, setGameStatus] = useState('PLAYING')
     const [promotionPiece, setPromotion] = useState('')
     const squares = readyUpChessBoard();
@@ -54,12 +55,16 @@ const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, t
                             <div id={`bishop-${ownColor}`} className="black-square promotion" onClick={setBishopPromotion} />
                         </div>
                     </div>
-                    <nav>
-                        <h1 id="gameStatus">Game Status: {gameStatus}</h1>
-                        <h1 id="turn">Turn: {turn.toUpperCase()}</h1>
-                    </nav>
-                    <div className="game-board">
-                        { pause ? null : <CreateGameboard />}
+                    <div className='body-container'>
+                        <nav>
+                            <div className='quit-button' onClick={quitGame}>QUIT</div>
+                            <h1 id="gameStatus">Game Status: {gameStatus}</h1>
+                            <h1 id="turn">Turn: {turn.toUpperCase()}</h1>
+                        </nav>
+                        <div className="game-board">
+                            { pause ? null : <CreateGameboard />}
+                        </div>
+                        <Footer />
                     </div>
                 </>
             ) : (

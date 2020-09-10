@@ -168,7 +168,7 @@ const queenMoveLogic = (currentSpot, destination, currentSquareColor, destSquare
 
 const kingMoveLogic = (currentSpot, destination, layout, opponentColor, destSquareColor, kingId, ifMoved) => {
     
-    if(Math.abs(currentSpot - destination) === 2) {
+    if(Math.abs(currentSpot - destination) === 2 && (currentSpot === 4 || currentSpot === 60)) {
         const {
             blackKingMove,
             whiteKingMove,

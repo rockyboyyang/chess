@@ -71,8 +71,9 @@ const isCheckmate = (kingSpot, color, layout, kingSquare, kingId, destination, o
         }
 
         // checks if a gap spot is in check
-        console.log(gapArray, 'gapArray during loop')
         if (!isChecked(gapArray[i], color, layout, gapSquareColor, null)) return false;
+
+        if (isChecked(gapArray[i], opponentColor, layout, gapSquareColor, null)) return false;
     }
     console.log(gapArray, 'gapArray after loop')
     if (!isChecked(kingSpot, color, layout, kingSquare, kingId)) {

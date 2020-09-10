@@ -17,14 +17,15 @@ body {
 }
 
 .game-board {
-    height: 700px;
-    width: 700px;
+    height: 500px;
+    width: 500px;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     border: 20px solid #17252a;
     border-radius: 25px;
     background-color: #def2f1;
+    justify-self: center;
     /* transform: rotate(180deg); ; */
 }
 
@@ -54,84 +55,84 @@ body {
     background-image: url(./images/black-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 50px;
+    background-size: 40px;
 }
 
 #rook-white {
     background-image: url(./images/white-rook.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 50px;
+    background-size: 40px;
 }
 
 #knight-black {
     background-image: url(./images/black-knight.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 50px;
+    background-size: 40px;
 }
 
 #knight-white {
     background-image: url(./images/white-knight.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 50px;
+    background-size: 40px;
 }
 
 #bishop-black {
     background-image: url(./images/black-bishop.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 38px;
+    background-size: 30px;
 }
 
 #bishop-white {
     background-image: url(./images/white-bishop.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 38px;
+    background-size: 30px;
 }
 
 #queen-black {
     background-image: url(./images/black-queen.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 37px;
+    background-size: 30px;
 }
 
 #queen-white {
     background-image: url(./images/white-queen.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 37px;
+    background-size: 30px;
 }
 
 #king-black {
     background-image: url(./images/black-king.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 30px;
+    background-size: 25px;
 }
 
 #king-white {
     background-image: url(./images/white-king.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 30px;
+    background-size: 25px;
 }
 
 #pawn-black {
     background-image: url(./images/black-pawn.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 45px;
+    background-size: 40px;
 }
 
 #pawn-white {
     background-image: url(./images/white-pawn.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 45px;
+    background-size: 40px;
 }
 
 .white-square:hover,
@@ -185,9 +186,11 @@ body {
 .body-container {
     height: 100%;
     width: 100%;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
+    display: grid;
+    grid-template-rows: 1fr 8fr 1fr;
 }
 #home-page {
     display: grid;
@@ -195,6 +198,7 @@ body {
     margin: 25px;
     padding: 30px;
     width: 45%;
+    justify-self: center;
 }
 
 #home-header {
@@ -231,7 +235,7 @@ body {
 
 footer {
     align-self: self-end;
-    height: 30%;
+    height: 100%;
     width: 100%;
     background-color: #17252a;
     display: flex;
@@ -258,8 +262,29 @@ nav {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 25px;
+    height: 90px;
 }
 
+.quit-button {
+    height: 90px;
+    width: 7%;
+    position: absolute;
+    /* align-self: flex-start; */
+    background-color: #17252a;
+    /* border-left: solid 0.1px white; */
+    /* border-right: solid 0.1px white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0 5px 3px rgba(255,255,255,.16)
+}
+
+.quit-button:hover {
+    background-color: #def2f1;;
+    color: #17252a;
+    cursor: pointer;
+    transition: .25s;
+}
 /* # {
   --animate-repeat: 5;
 } */

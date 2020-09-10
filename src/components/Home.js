@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-
+import Footer from './Footer'
 
 const Home = ({ updatePlayerName, onePlayerGame, twoPlayerGame, setOnePlayerGame, setTwoPlayerGame, setMatch }) => {
     const [playerName, setPlayerName] = useState('');
     const [errors, setErrors] = useState('');
-    
-    const onChange = (e) => {
-        setPlayerName(e.target.value);
-    };
 
     const selectWhite = () => {
         if(onePlayerGame) setMatch(true)
@@ -27,23 +23,7 @@ const Home = ({ updatePlayerName, onePlayerGame, twoPlayerGame, setOnePlayerGame
         setTwoPlayerGame(true);
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        const errorsToSet = [];
-
-        if (!playerName) {
-            errorsToSet.push('Please provide a player name.');
-        }
-
-        if (errorsToSet.length > 0) {
-            setErrors(errorsToSet);
-            return;
-        }
-
-        updatePlayerName(playerName);
-    };
-
+    
     return (
         <>
             <div className="body-container">
@@ -63,10 +43,7 @@ const Home = ({ updatePlayerName, onePlayerGame, twoPlayerGame, setOnePlayerGame
                         </>
                     )}
                 </div>
-                <footer>
-                    <a className="fa fa-github-square" href='https://github.com/rockyboyyang'></a>
-                    <a className="fa fa-linkedin" href='https://www.linkedin.com/in/rocky-yang-8a6669b8/'></a>
-                </footer>
+                <Footer />
             </div>
         </>
     );

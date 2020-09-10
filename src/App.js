@@ -88,10 +88,21 @@ function App() {
     webSocket.current.sendMessage('update-gameboard', { gameBoard: layout, turn, gameStatus });
   };
 
+  const quitGame = (e) => {
+    e.preventDefault()
+    setOnePlayerGame(false);
+    setTwoPlayerGame(false);
+    updatePlayerName('')
+    setMatch(false)
+    setGameBoard(squares)
+    changeTurn('white')
+    setGameStatus('PLAYING')
+  }
+
   return (
     <BrowserRouter>
       {playerName ? (
-        <GameBoard playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn} gameStatus={gameStatus} setGameStatus={setGameStatus} onePlayerGame={onePlayerGame} twoPlayerGame={twoPlayerGame}/>
+        <GameBoard quitGame={quitGame} playerName={playerName} match={match} gameBoard={gameBoard} setGameBoard={setGameBoard} sendGameboard={sendGameboard} turn={turn} changeTurn={changeTurn} gameStatus={gameStatus} setGameStatus={setGameStatus} onePlayerGame={onePlayerGame} twoPlayerGame={twoPlayerGame}/>
       ) : (
         <Home updatePlayerName={updatePlayerName} onePlayerGame={onePlayerGame} twoPlayerGame={twoPlayerGame} setOnePlayerGame={setOnePlayerGame} setTwoPlayerGame={setTwoPlayerGame} setMatch={setMatch}/>
       )}
