@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
 import Footer from './Footer'
+import OnePlayerTutorial from '../videos/one-player-tutorial.mp4'
+import TwoPlayerTutorial from '../videos/two-player-tutorial.mp4'
 
-const Home = () => {
+const Splash = ({startSetup}) => {
 
     return (
         <>
             <div className="body-container">
                 <h1 id='home-header'>CHESS</h1>
-                <div id='home-page'>
-                    {!onePlayerGame && !twoPlayerGame ? (
-                        <>
-                            <h2 id='pick-color'>Pick A Mode</h2>
-                            <div className="button" onClick={selectOnePlayer}>One Player Match</div>
-                            <div className="button" onClick={selectTwoPlayer}>Two Player Match</div>
-                        </>
-                    ) : (
-                            <>
-                                <h2 id='pick-color'>Pick Your Color</h2>
-                                <div className="button" onClick={selectWhite}>WHITE</div>
-                                <div className="button" onClick={selectBlack}>BLACK</div>
-                            </>
-                        )}
+                <div id='splash-page-middle-container'>
+                    <div id='start-game-settings-button-container'>
+                        <div id='start-game-settings-button' onClick={startSetup}>Start</div>
+                    </div>
+                    <div id='one-player-container'>
+                        <h3>One Player Tutorial</h3>
+                        <div id='one-player-tutorial-container'>
+                            <video src={OnePlayerTutorial} controls='true' autoplay="" loop=""></video>
+                        </div>
+                    </div>
+                    <div id='two-player-container'>
+                        <h3>Two Player Tutorial</h3>
+                        <div id='two-player-tutorial-container'>
+                            <video src={TwoPlayerTutorial} controls='true' autoplay="" loop=""></video>
+                        </div>
+                    </div>
                 </div>
                 <Footer />
             </div>
@@ -28,4 +32,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Splash;

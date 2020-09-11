@@ -57,8 +57,8 @@ const GameBoard = ({playerName, match, gameBoard ,setGameBoard, sendGameboard, t
                     </div>
                     <div className='body-container'>
                         <nav>
-                            <div className='quit-button' onClick={quitGame}>QUIT</div>
                             <h1 id="gameStatus">Game Status: {gameStatus}</h1>
+                            <div className='quit-button' onClick={quitGame}>QUIT</div>
                             <h1 id="turn">Turn: {turn.toUpperCase()}</h1>
                         </nav>
                         <div className="game-board">
