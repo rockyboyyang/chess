@@ -23,7 +23,6 @@ function App() {
 
     const ws = new WebSocket(process.env.REACT_APP_WS_URL);
 
-
     ws.onopen = () => {
       sendMessage('add-new-player', { playerName })
     };

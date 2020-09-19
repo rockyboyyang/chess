@@ -1,5 +1,10 @@
 import { isChecked } from './checkLogic';
 
+const colOne = [0, 8, 16, 24, 32, 40, 48, 56]
+const colTwo = [1, 9, 17, 25, 33, 41, 49, 57]
+const colSeven = [6, 14, 22, 30, 38, 46, 54, 62]
+const colEight = [7, 15, 23, 31, 39, 47, 55, 63]
+
 const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
     if(currentSpot < 0 || currentSpot > 63) return false;
     if(layout[currentSpot] === 'null') return false;
@@ -15,8 +20,8 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         } else {
             if (currentSpot - destination === 8 && layout[currentSpot - 8] === 'null') return true;
         }
-        if (layout[destination] !== 'null' && destination === currentSpot - 7) return true
-        if (layout[destination] !== 'null' && destination === currentSpot - 9) return true
+        if (layout[destination] !== 'null' && destination === currentSpot - 7 && !colEight.includes(currentSpot)) return true
+        if (layout[destination] !== 'null' && destination === currentSpot - 9 && !colOne.includes(currentSpot)) return true
         return false;
     } else {
         if (blackArr.includes(currentSpot)) {
@@ -24,17 +29,14 @@ const pawnMoveLogic = (currentSpot, destination, turn, layout) => {
         } else {
             if (currentSpot + 8 === destination && layout[currentSpot + 8] === 'null') return true;
         }
-        if (layout[destination] !== 'null' && destination === currentSpot + 7) return true
-        if (layout[destination] !== 'null' && destination === currentSpot + 9) return true
+        if (layout[destination] !== 'null' && destination === currentSpot + 7 && !colOne.includes(currentSpot)) return true
+        if (layout[destination] !== 'null' && destination === currentSpot + 9 && !colEight.includes(currentSpot)) return true
         return false;
     }
 }
 
 const knightMoveLogic = (currentSpot, destination) => {
-    const colOne = [0, 8, 16, 24, 32, 40, 48, 56]
-    const colTwo = [1, 9, 17, 25, 33, 41, 49, 57]
-    const colSeven = [6, 14, 22, 30, 38, 46, 54, 62]
-    const colEight = [7, 15, 23, 31, 39, 47, 55, 63]
+
 
     if(colOne.includes(currentSpot)) {
         if(

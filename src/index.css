@@ -239,9 +239,11 @@ footer {
     height: 100%;
     width: 100%;
     background-color: #17252a;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .fa {
@@ -249,6 +251,25 @@ footer {
     color: #def2f1;
     text-decoration: none;
     padding: 0px 10px;
+}
+
+.copyright-container h5 {
+    color: #def2f1;
+}
+
+.copyright-container {
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    grid-column: 1;
+    align-items: center;
+}
+
+.socialmedia-links-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 3;
 }
 
 .waiting {
@@ -376,6 +397,7 @@ video {
     width: 80%;
     border: solid black 10px;
 }
+
 
 /* # {
   --animate-repeat: 5;
