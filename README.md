@@ -5,7 +5,7 @@ An application for the game Chess.  Chess is a two-player strategy board game th
 <a href="https://powerful-mountain-20313.herokuapp.com/gameBoard">LIVE LINK HERE</a>
 
 # Repo Link
-<a href="https://github.com/rockyboyyang/chess-server">LIVE LINK HERE</a>
+<a href="https://github.com/rockyboyyang/chess-server">Backend Repo</a>
 
 # Technologies
 - Front-end development
@@ -24,10 +24,28 @@ An application for the game Chess.  Chess is a two-player strategy board game th
 
  # Features
  - Landing Page where two players can choose their color
+![home-page](src/images/splash.png)
+
  - Use websockets so two people can play at the same time
+![two-player](src/images/splash.png)
+
  - Having each of the individual pieces move how they should
+
  - Be able to implement unique moves (Castling and Promotions)
+ - Castling
+![castling_after](src/images/castling_before.png)
+![castling_before](src/images/after.png)
+
+- Promotion
+![promotion_before](src/images/promotion_before.png)
+![promotion_selection](src/images/select_piece.png)
+![promotion_after](src/images/promotion_after.png)
+
  - Able to play a full game of Chess
+![checkmate](src/images/checkmate.png)
+
+# Image of a game
+![gameplay](src/images/gameplay.png)
 
 # Technical Challenges
 - Getting all the game pieces to move accordingly
