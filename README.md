@@ -33,8 +33,8 @@ An application for the game Chess.  Chess is a two-player strategy board game th
 
  - Be able to implement unique moves (Castling and Promotions)
  - Castling
-![castling_after](src/images/castling_before.png)
-![castling_before](src/images/after.png)
+![castling_after](src/images/castle_before.png)
+![castling_before](src/images/castle_after.png)
 
 - Promotion
 ![promotion_before](src/images/promotion_before.png)
